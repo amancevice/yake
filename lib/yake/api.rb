@@ -44,8 +44,8 @@ module Yake
 
       ##
       # Set default header
-      def header(**headers)
-        (@headers ||= {}).update(**headers)
+      def header(headers)
+        (@headers ||= {}).update(headers)
       end
 
       ##
