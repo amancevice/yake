@@ -59,6 +59,10 @@ Or install it yourself as:
 gem install yake
 ```
 
+## Why Is It Called "yake"?
+
+"λ" is hard to type and I think "y" looks like a funny little upside-down-and-backwards Lambda symbol.
+
 ## Why Use It?
 
 So why use `yake` for your Lambda functions?
