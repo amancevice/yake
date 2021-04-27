@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    yake (0.1.0)
+    yake (0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -41,7 +41,7 @@ DEPENDENCIES
   pry (~> 0.14)
   rake (~> 13.0)
   rspec (~> 3.0)
-  simplecov
+  simplecov (~> 0.21)
   yake!
 
 BUNDLED WITH
