@@ -1,5 +1,10 @@
 # λake
 
+![gem](https://img.shields.io/gem/v/yake?color=crimson&logo=rubygems&logoColor=eee&style=flat-square)
+[![rspec](https://img.shields.io/github/workflow/status/amancevice/yake/RSpec?logo=github&style=flat-square)](https://github.com/amancevice/yake/actions)
+[![coverage](https://img.shields.io/codeclimate/coverage/amancevice/yake?logo=code-climate&style=flat-square)](https://codeclimate.com/github/amancevice/yake/test_coverage)
+[![maintainability](https://img.shields.io/codeclimate/maintainability/amancevice/yake?logo=code-climate&style=flat-square)](https://codeclimate.com/github/amancevice/yake/maintainability)
+
 Write your AWS Lambda function handlers using a Rake-like declarative syntax:
 
 ```ruby
