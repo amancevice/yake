@@ -13,11 +13,22 @@ RSpec.describe Yake::API::DSL do
         "routeKey"        => "POST /fizz",
       }
     end
+    let(:error) do
+      {
+        "body"            => Base64.strict_encode64({fizz: "buzz"}.to_json),
+        "isBase64Encoded" => true,
+        "routeKey"        => "POST /buzz",
+      }
+    end
 
     before { runtime_class.post("/fizz") { |event, context| [ event, context] } }
 
     it "should route the event" do
       expect(runtime_class.route event, context).to eq [ event, context ]
+    end
+
+    it "should raise UndeclaredRoute" do
+      expect { runtime_class.route error, context }.to raise_error(Yake::Errors::UndeclaredRoute)
     end
   end
 

@@ -3,16 +3,17 @@
 require "json"
 
 require "yake"
+require_relative "errors"
 
 module Yake
   module API
     module DSL
       ##
       # Proxy handler for HTTP requests from Slack
-      def route(event, context)
+      def route(event, context = nil)
         # Extract route method
         method = event["routeKey"]
-        raise Yake::Error, "No route defined for '#{ method }'" unless respond_to?(method)
+        raise Yake::Errors::UndeclaredRoute, method unless respond_to?(method)
 
         # Normalize headers
         event["headers"]&.transform_keys!(&:downcase)
@@ -30,15 +31,20 @@ module Yake
       ##
       # Transform to API Gateway response
       def respond(status_code, body = nil, **headers)
+        # Log response
         log = "RESPONSE [#{ status_code }] #{ body }"
         status_code.to_i >= 400 ? Yake.logger.error(log) : Yake.logger.info(log)
-        headers = {
-          "content-length" => (body&.length || 0).to_s,
-          # "content-type"   => "application/json; charset=utf-8",
-          **(@headers || {}),
-          **headers
-        }.transform_keys { |x| x.to_s.downcase }.compact
 
+        # Set headers
+        content_length = (body&.length || 0).to_s
+        to_s_downcase  = -> (key) { key.to_s.downcase }
+        headers = {
+          "content-length" => content_length,
+          **(@headers || {}),
+          **headers,
+        }.transform_keys(&to_s_downcase).compact
+
+        # Send response
         { statusCode: status_code, headers: headers, body: body }.compact
       end
 
