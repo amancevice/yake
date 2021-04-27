@@ -30,10 +30,6 @@ module Yake
 
   module Loggable
     attr_accessor :logger
-
-    def logger
-      @logger ||= Logger.new
-    end
   end
 
   extend Loggable

@@ -38,11 +38,3 @@ RSpec.describe Yake::Logger do
     end
   end
 end
-
-RSpec.describe Yake::Loggable do
-  context "#logger" do
-    it "should get a new logger" do
-      expect(Yake.logger).not_to be nil
-    end
-  end
-end

@@ -33,7 +33,7 @@ module Yake
       def respond(status_code, body = nil, **headers)
         # Log response
         log = "RESPONSE [#{ status_code }] #{ body }"
-        status_code.to_i >= 400 ? Yake.logger.error(log) : Yake.logger.info(log)
+        Yake.logger&.send(status_code.to_i >= 400 ? :error : :info, log)
 
         # Set headers
         content_length = (body&.length || 0).to_s

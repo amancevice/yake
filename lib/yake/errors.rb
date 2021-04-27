@@ -8,6 +8,12 @@ module Yake
       end
     end
 
+    class UnknownLoggingSetting < Error
+      def initialize(method = nil)
+        super("Unknown logging setting '#{ method }'. Use :on or :off")
+      end
+    end
+
     # HTTP Errors
 
     class BadRequest < Error; end                    # HTTP 400

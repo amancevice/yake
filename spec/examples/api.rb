@@ -1,3 +1,5 @@
+# --- Define Lambda handler(s)
+
 require "yake/api"
 
 @fizzes = []
@@ -25,7 +27,7 @@ end
 
 handler :proxy do |event|
   route event
-rescue Yake::Errors::NoRouteDeclared => err
+rescue Yake::Errors::UndeclaredRoute => err
   respond 404, { message: err.message }.to_json
 rescue => err
   respond 500, { message: err.message }.to_json
