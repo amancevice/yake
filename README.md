@@ -99,41 +99,33 @@ Requiring the `yake/api` module will add the API-specific DSL into your handler.
 Define API routes using Sinatra-like syntax
 
 ```ruby
-# Declare 'DELETE /…' route key
 delete "/…" do |event|
-  # …
+  # Handle 'DELETE /…' route key events
 end
 
-# Declare 'GET /…' route key
 get "/…" do |event|
-  # …
+  # Handle 'GET /…' route key events
 end
 
-# Declare 'HEAD /…' route key
 head "/…" do |event|
-  # …
+  # Handle 'HEAD /…' route key events
 end
 
-# Declare 'OPTIONS /…' route key
 options "/…" do |event|
-  # …
+  # Handle 'OPTIONS /…' route key events
 end
 
-# Declare 'PATCH /…' route key
 patch "/…" do |event|
-  # …
+  # Handle 'PATCH /…' route key events
 end
 
-# Declare 'POST /…' route key
 post "/…" do |event|
-  # …
+  # Handle 'POST /…' route key events
 end
 
-# Declare 'PUT /…' route key
 put "/…" do |event|
-  # …
+  # Handle 'PUT /…' route key events
 end
-
 ```
 
 Helper methods are also made available to help produce a response for API Gateway:
@@ -142,12 +134,13 @@ Set a default header for ALL responses:
 
 ```ruby
 header "content-type" => "application/json; charset=utf-8"
+header "x-custom-header" => "fizz"
 ```
 
 Produce an API Gateway-style response object:
 
 ```ruby
-respond 200, { ok: true }.to_json, "x-extra-header" => "fizz"
+respond 200, { ok: true }.to_json, "x-extra-header" => "buzz"
 # {
 #   "statusCode" => 200,
 #   "body" => '{"ok":true}',
@@ -158,7 +151,7 @@ respond 200, { ok: true }.to_json, "x-extra-header" => "fizz"
 Route an event to one of the declared routes:
 
 ```ruby
-begin
+handler :lambda_handler do |event|
   route event
 rescue Yake::UndeclaredRoute => err
   respond 404, { message: err.message }.to_json
