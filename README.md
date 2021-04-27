@@ -61,7 +61,7 @@ gem install yake
 
 ## Why Is It Called "yake"?
 
-"λ" is hard to type and I think "y" looks like a funny little upside-down-and-backwards Lambda symbol.
+"λ" + Rake, but "λ" is hard to type and I think "y" looks like a funny little upside-down-and-backwards Lambda symbol.
 
 ## Why Use It?
 
@@ -73,9 +73,7 @@ So why use `yake` for your Lambda functions?
 
 #### Event Logging
 
-By default, the `handler` function wraps its block in log lines formatted to match the style of Amazon's native Lambda logs sent to CloudWatch. Each invocation of the handler logs the input event and the returned value prefixed with the ID of the request.
-
-Example log lines:
+By default, the `handler` function wraps its block in log lines formatted to match the style of Amazon's native Lambda logs sent to CloudWatch. Each invocation of the handler will log both the _input event_ and the _returned value_, prefixed with the ID of the request:
 
 ```
 START RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf Version: $LATEST
@@ -86,9 +84,9 @@ END RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf
 REPORT RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf	Duration: 43.97 ms	Billed Duration: 44 ms	Memory Size: 128 MB	Max Memory Used: 77 MB
 ```
 
-This makes gathering logs lines for a particular execution in CloudWatch much easier.
+Logging the request ID in this way makes gathering logs lines for a particular execution in CloudWatch much easier.
 
-This feature can be disabled by adding a declaration in your handler:
+This feature can be disabled by adding a declaration in your handler file:
 
 ```ruby
 logging :off
