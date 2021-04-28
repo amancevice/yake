@@ -26,7 +26,7 @@ require "yake/api"
 
 header "content-type" => "application/json"
 
-get "/fizz" do |handler|
+get "/fizz" do
   respond 200, { ok: true }.to_json
 end
 
@@ -158,7 +158,7 @@ handler :lambda_handler do |event|
 rescue Yake::UndeclaredRoute => err
   respond 404, { message: err.message }.to_json
 rescue => err
-  respond 500 { message: err.message }.to_json
+  respond 500, { message: err.message }.to_json
 end
 ```
 
