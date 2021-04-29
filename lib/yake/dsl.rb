@@ -16,11 +16,11 @@ module Yake
 
     ##
     # Turn logging on/off
-    def logging(switch, **options)
+    def logging(switch, logdev = $stdout, **options)
       if switch == :on
-        Yake.logger = Yake::Logger.new
+        Yake.logger = Yake::Logger.new(logdev)
       elsif switch == :off
-        Yake.logger = nil
+        Yake.logger = ::Logger.new(nil)
       else
         raise Errors::UnknownLoggingSetting, switch
       end

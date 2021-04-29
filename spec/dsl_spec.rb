@@ -16,12 +16,12 @@ RSpec.describe Yake::DSL do
   context "#logging" do
     it "should disable logging" do
       runtime_class.logging :off
-      expect(Yake.logger).to be nil
+      expect(Yake.logger.instance_variable_get :@logdev).to be nil
     end
 
     it "should enable logging" do
       runtime_class.logging :on
-      expect(Yake.logger).not_to be nil
+      expect(Yake.logger.instance_variable_get :@logdev).not_to be nil
     end
 
     it "should raise an error" do
