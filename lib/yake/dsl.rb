@@ -20,7 +20,7 @@ module Yake
       if switch == :on
         Yake.logger = Yake::Logger.new(logdev)
       elsif switch == :off
-        Yake.logger = ::Logger.new(nil)
+        Yake.logger = Yake::Logger.new(nil)
       else
         raise Errors::UnknownLoggingSetting, switch
       end
