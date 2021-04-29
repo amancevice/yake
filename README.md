@@ -67,10 +67,6 @@ gem install yake
 
 So why use `yake` for your Lambda functions?
 
-#### Zero Dependencies
-
-`yake` does not depend on any other gems, using the Ruby stdlib only. This helps keep your Lambda packages slim & speedy.
-
 #### Event Logging
 
 By default, the `handler` function wraps its block in log lines formatted to match the style of Amazon's native Lambda logs sent to CloudWatch. Each invocation of the handler will log both the _input event_ and the _returned value_, prefixed with the ID of the request:
@@ -161,6 +157,10 @@ rescue => err
   respond 500, { message: err.message }.to_json
 end
 ```
+
+#### Zero Dependencies
+
+Finally, `yake` does not depend on any other gems, using the Ruby stdlib only. This helps keep your Lambda packages slim & speedy.
 
 ## Development
 
