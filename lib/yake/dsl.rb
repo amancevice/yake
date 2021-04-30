@@ -29,4 +29,3 @@ module Yake
 end
 
 extend Yake::DSL
-Yake.logger = Yake::Logger.new
