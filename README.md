@@ -142,7 +142,7 @@ respond 200, { ok: true }.to_json, "x-extra-header" => "buzz"
 # {
 #   "statusCode" => 200,
 #   "body" => '{"ok":true}',
-#   "headers" => { "x-extra-header" => "fizz" }
+#   "headers" => { "x-extra-header" => "buzz" }
 # }
 ```
 
