@@ -10,17 +10,17 @@ module Yake
     # Lambda handler task wrapper
     def handler(name, &block)
       define_method(name) do |event:nil, context:nil|
-        Yake.logger.nil? ? yield(event, context) : Yake.logger.wrap(event, context, &block)
+        Yake.wrap(event, context, &block)
       end
     end
 
     ##
     # Turn logging on/off
-    def logging(switch, logdev = $stdout, **options)
+    def logging(switch, logger = nil)
       if switch == :on
-        Yake.logger = Yake::Logger.new(logdev)
+        Yake.logger = logger
       elsif switch == :off
-        Yake.logger = Yake::Logger.new(nil)
+        Yake.logger = ::Logger.new(nil)
       else
         raise Errors::UnknownLoggingSetting, switch
       end

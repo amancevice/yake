@@ -1,8 +1,8 @@
 RSpec.describe Yake::API::DSL do
-  let(:runtime_class) { Class.new { extend Yake::API::DSL } }
-  let(:runtime) { runtime_class.new }
+  let(:runtime_class) { Class.new { extend Yake::DSL ; extend Yake::API::DSL } }
+  let(:runtime)       { runtime_class.new }
 
-  before { Yake.logger = Yake::Logger.new nil }
+  before { runtime_class.logging :off }
 
   context "#route" do
     let(:context) { OpenStruct.new(aws_request_id: "<awsRequestId>") }

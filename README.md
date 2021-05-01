@@ -88,6 +88,17 @@ This feature can be disabled by adding a declaration in your handler file:
 logging :off
 ```
 
+Include `Yake::Logging` on a class to access this logger:
+
+```ruby
+class Fizz
+  include Yake::Logger
+end
+
+Fizz.new.logger == Yake.logger
+# => true
+```
+
 #### API Routes
 
 A common use of Lambda functions is as a proxy for API Gateway. Oftentimes users will deploy a single Lambda function to handle all requests coming from API Gateway.

@@ -1,10 +1,9 @@
 RSpec.describe Yake::Logger do
-  let(:context) { OpenStruct.new(aws_request_id: "<awsRequestId>") }
-  let(:stream) { StringIO.new }
+  context "::new" do
+    let(:stream) { StringIO.new }
 
-  context "#new" do
     it "should use STDOUT by default" do
-      expect(subject.instance_variable_get(:@logdev).dev).to eq $stdout
+      expect(Yake::Logger.new.instance_variable_get(:@logdev).dev).to eq $stdout
     end
 
     it "should use stream if supplied" do
@@ -12,8 +11,21 @@ RSpec.describe Yake::Logger do
     end
   end
 
-  context "#wrap" do
-    subject { Yake::Logger.new(stream) }
+  context "::included" do
+    subject { Class.new { include Yake::Logger }.new }
+
+    it "should use Yake::logger" do
+      expect(subject.logger).to eq Yake.logger
+    end
+  end
+end
+
+RSpec.describe Yake do
+  context "::wrap" do
+    let(:context) { OpenStruct.new(aws_request_id: "<awsRequestId>") }
+    let(:stream)  { StringIO.new }
+
+    before { Yake.logger = Yake::Logger.new stream }
 
     it "should log the event and the result without context" do
       ret = subject.wrap({fizz: "buzz"}) { |x| x.transform_keys(&:upcase) }
@@ -23,7 +35,7 @@ RSpec.describe Yake::Logger do
         INFO - EVENT {"fizz":"buzz"}
         INFO - RETURN {"FIZZ":"buzz"}
       EOS
-      expect(subject.progname).to eq "-"
+      expect(subject.logger.progname).to eq "-"
     end
 
     it "should log the event and the result with context" do
@@ -34,7 +46,7 @@ RSpec.describe Yake::Logger do
         INFO RequestId: <awsRequestId> EVENT {"fizz":"buzz"}
         INFO RequestId: <awsRequestId> RETURN {"FIZZ":"buzz"}
       EOS
-      expect(subject.progname).to eq "-"
+      expect(subject.logger.progname).to eq "-"
     end
   end
 end

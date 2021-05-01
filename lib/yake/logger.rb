@@ -4,37 +4,41 @@ require "json"
 require "logger"
 
 module Yake
-  class Logger < ::Logger
-    def initialize(logdev = $stdout, *)
-      super
-      @progname  = "-"
-      @formatter = LambdaFormatter.new
+  module Logger
+    attr_accessor :logger
+
+    def logger
+      @logger ||= Yake.logger
     end
 
-    def wrap(event = nil, context = nil, &block)
-      @progname = "RequestId: #{ context.aws_request_id }" if context.respond_to?(:aws_request_id)
-      info("EVENT #{ event.to_json }")
-      yield(event, context).tap { |res| info("RETURN #{ res.to_json }") }
-    ensure
-      @progname = "-"
+    class << self
+      def new(logdev = $stdout)
+        ::Logger.new(logdev, progname: "-", formatter: Formatter.new)
+      end
     end
-  end
 
-  class LambdaFormatter < ::Logger::Formatter
-    Format = "%s %s %s\n"
+    class Formatter < ::Logger::Formatter
+      Format = "%s %s %s\n"
 
-    def call(severity, time, progname, msg)
-      Format % [ severity, progname, msg2str(msg).strip ]
+      def call(severity, time, progname, msg)
+        Format % [ severity, progname, msg2str(msg).strip ]
+      end
     end
   end
 
-  module Loggable
+  class << self
     attr_accessor :logger
 
     def logger
       @logger ||= Logger.new
     end
-  end
 
-  extend Loggable
+    def wrap(event = nil, context = nil, &block)
+      logger.progname = "RequestId: #{ context.aws_request_id }" if context.respond_to?(:aws_request_id)
+      logger.info("EVENT #{ event.to_json }")
+      yield(event, context).tap { |res| logger.info("RETURN #{ res.to_json }") }
+    ensure
+      logger.progname = "-"
+    end
+  end
 end

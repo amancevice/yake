@@ -1,8 +1,8 @@
 RSpec.describe Yake::DSL do
   let(:runtime_class) { Class.new { extend Yake::DSL } }
-  let(:runtime) { runtime_class.new }
+  let(:runtime)       { runtime_class.new }
 
-  before { Yake.logger = Yake::Logger.new nil }
+  before { runtime_class.logging :off }
 
   context "#handler" do
     it "should define a method called :fizz" do
