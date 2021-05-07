@@ -88,7 +88,7 @@ This feature can be disabled by adding a declaration in your handler file:
 logging :off
 ```
 
-Include `Yake::Logging` on a class to access this logger:
+Include `Yake::Logger` on a class to access this logger:
 
 ```ruby
 class Fizz
