@@ -108,6 +108,10 @@ Requiring the `yake/api` module will add the API-specific DSL into your handler.
 Define API routes using Sinatra-like syntax
 
 ```ruby
+any "/…" do |event|
+  # Handle 'ANY /…' route key events
+end
+
 delete "/…" do |event|
   # Handle 'DELETE /…' route key events
 end
