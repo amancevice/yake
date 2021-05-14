@@ -56,6 +56,12 @@ module Yake
       end
 
       ##
+      # Define ANY route
+      def any(path, &block)
+        define_singleton_method("ANY #{ path }") { |*args| instance_exec(*args, &block) }
+      end
+
+      ##
       # Define DELETE route
       def delete(path, &block)
         define_singleton_method("DELETE #{ path }") { |*args| instance_exec(*args, &block) }

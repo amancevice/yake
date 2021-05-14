@@ -56,52 +56,12 @@ RSpec.describe Yake::API::DSL do
     end
   end
 
-  context "#delete" do
-    it "should define a DELETE /* method" do
-      runtime_class.delete("/path/to/resource")
-      expect(runtime_class.respond_to? :"DELETE /path/to/resource").to be true
-    end
-  end
-
-  context "#get" do
-    it "should define a GET /* method" do
-      runtime_class.get("/path/to/resource")
-      expect(runtime_class.respond_to? :"GET /path/to/resource").to be true
-    end
-  end
-
-  context "#head" do
-    it "should define a HEAD /* method" do
-      runtime_class.head("/path/to/resource")
-      expect(runtime_class.respond_to? :"HEAD /path/to/resource").to be true
-    end
-  end
-
-  context "#options" do
-    it "should define a OPTIONS /* method" do
-      runtime_class.options("/path/to/resource")
-      expect(runtime_class.respond_to? :"OPTIONS /path/to/resource").to be true
-    end
-  end
-
-  context "#patch" do
-    it "should define a PATCH /* method" do
-      runtime_class.patch("/path/to/resource")
-      expect(runtime_class.respond_to? :"PATCH /path/to/resource").to be true
-    end
-  end
-
-  context "#post" do
-    it "should define a POST /* method" do
-      runtime_class.post("/path/to/resource")
-      expect(runtime_class.respond_to? :"POST /path/to/resource").to be true
-    end
-  end
-
-  context "#put" do
-    it "should define a PUT /* method" do
-      runtime_class.put("/path/to/resource")
-      expect(runtime_class.respond_to? :"PUT /path/to/resource").to be true
+  context "#verbs" do
+    %i[any delete get head options patch post put].each do |verb|
+      it "should define a method for #{ verb.upcase }" do
+        runtime_class.send(verb, "/path/to/resource")
+        expect(runtime_class.respond_to? :"#{ verb.upcase } /path/to/resource").to be true
+      end
     end
   end
 end
