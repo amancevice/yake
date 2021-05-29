@@ -25,7 +25,7 @@ RSpec.describe Yake do
     let(:context) { OpenStruct.new(aws_request_id: "<awsRequestId>") }
     let(:stream)  { StringIO.new }
 
-    before { Yake.logger = Yake::Logger.new stream }
+    before { Yake.logger = Yake::Logger.new(stream, progname: "-") }
 
     it "should log the event and the result without context" do
       ret = subject.wrap({fizz: "buzz"}) { |x| x.transform_keys(&:upcase) }

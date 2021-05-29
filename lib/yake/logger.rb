@@ -12,8 +12,8 @@ module Yake
     end
 
     class << self
-      def new(logdev = $stdout)
-        ::Logger.new(logdev, progname: "-", formatter: Formatter.new)
+      def new(logdev = $stdout, **params)
+        ::Logger.new(logdev, formatter: Formatter.new, **params)
       end
     end
 
@@ -21,7 +21,7 @@ module Yake
       Format = "%s %s %s\n"
 
       def call(severity, time, progname, msg)
-        Format % [ severity, progname, msg2str(msg).strip ]
+        Format % [ severity, progname.nil? ? "-" : "RequestId: #{ progname }", msg2str(msg).strip ]
       end
     end
   end
@@ -34,11 +34,12 @@ module Yake
     end
 
     def wrap(event = nil, context = nil, &block)
-      logger.progname = "RequestId: #{ context.aws_request_id }" if context.respond_to?(:aws_request_id)
+      original_progname = logger.progname
+      logger.progname = context&.aws_request_id
       logger.info("EVENT #{ event.to_json }")
       yield(event, context).tap { |res| logger.info("RETURN #{ res.to_json }") }
     ensure
-      logger.progname = "-"
+      logger.progname = original_progname
     end
   end
 end
