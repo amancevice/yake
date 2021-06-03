@@ -21,10 +21,14 @@ RSpec.describe Yake::API::DSL do
       }
     end
 
-    before { runtime_class.post("/fizz") { |event, context| [ event, context] } }
+    before { runtime_class.post("/fizz") { |event, context| [ event, context ] } }
 
     it "should route the event" do
       expect(runtime_class.route event, context).to eq [ event, context ]
+    end
+
+    it "should route the event and yield the block" do
+      expect(runtime_class.route(event, context) { |res| event.keys }).to eq %w[body isBase64Encoded routeKey]
     end
 
     it "should raise UndeclaredRoute" do

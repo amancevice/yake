@@ -11,7 +11,7 @@ module Yake
     module DSL
       ##
       # Proxy handler for HTTP requests from Slack
-      def route(event, context = nil)
+      def route(event, context = nil, &block)
         # Extract route method
         method = event["routeKey"]
         raise Yake::Errors::UndeclaredRoute, method unless respond_to?(method)
@@ -26,7 +26,7 @@ module Yake
         end
 
         # Execute request
-        send(method, event, context)
+        send(method, event, context).then { |res| block_given? ? yield(res) : res }
       end
 
       ##
