@@ -15,6 +15,12 @@ module Yake
     end
 
     ##
+    # Helper to get logger
+    def logger
+      Yake.logger
+    end
+
+    ##
     # Turn logging on/off
     def logging(switch, logger = nil)
       if switch == :on

@@ -15,6 +15,12 @@ RSpec.describe Yake::DSL do
     end
   end
 
+  context "#logger" do
+    it "should return the logger" do
+      expect(runtime_class.logger).to eq Yake.logger
+    end
+  end
+
   context "#logging" do
     it "should disable logging" do
       runtime_class.logging :off
