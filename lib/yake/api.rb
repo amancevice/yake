@@ -37,7 +37,7 @@ module Yake
         Yake.logger&.send(status_code.to_i >= 400 ? :error : :info, log)
 
         # Set headers
-        content_length = (body&.length || 0).to_s
+        content_length = (body&.bytesize || 0).to_s
         to_s_downcase  = -> (key) { key.to_s.downcase }
         headers = {
           "content-length" => content_length,
