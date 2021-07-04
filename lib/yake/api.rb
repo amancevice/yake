@@ -26,7 +26,8 @@ module Yake
         end
 
         # Execute request
-        send(method, event, context).then { |res| block_given? ? yield(res) : res }
+        res = send(method, event, context)
+        block_given? ? yield(res) : res
       end
 
       ##
