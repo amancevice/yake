@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "json"
+require 'json'
 
-require_relative "logger"
+require_relative 'logger'
 
 module Yake
   module DSL

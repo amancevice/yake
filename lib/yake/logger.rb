@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "json"
-require "logger"
+require 'json'
+require 'logger'
 
 module Yake
   module Logger
@@ -21,7 +21,7 @@ module Yake
       Format = "%s %s %s\n"
 
       def call(severity, time, progname, msg)
-        Format % [ severity, progname.nil? ? "-" : "RequestId: #{ progname }", msg2str(msg).strip ]
+        Format % [ severity, progname.nil? ? '-' : "RequestId: #{ progname }", msg2str(msg).strip ]
       end
     end
   end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "base64"
-require "json"
+require 'base64'
+require 'json'
 
-require "yake"
-require_relative "errors"
+require 'yake'
+require_relative 'errors'
 
 module Yake
   module API
@@ -13,16 +13,16 @@ module Yake
       # Proxy handler for HTTP requests from Slack
       def route(event, context = nil, &block)
         # Extract route method
-        method = event["routeKey"]
+        method = event['routeKey']
         raise Yake::Errors::UndeclaredRoute, method unless respond_to?(method)
 
         # Normalize headers
-        event["headers"]&.transform_keys!(&:downcase)
+        event['headers']&.transform_keys!(&:downcase)
 
         # Decode body if Base64-encoded
-        if event["isBase64Encoded"]
-          body = Base64.strict_decode64(event["body"])
-          event.update("body" => body, "isBase64Encoded" => false)
+        if event['isBase64Encoded']
+          body = Base64.strict_decode64(event['body'])
+          event.update('body' => body, 'isBase64Encoded' => false)
         end
 
         # Execute request
@@ -41,7 +41,7 @@ module Yake
         content_length = (body&.bytesize || 0).to_s
         to_s_downcase  = -> (key) { key.to_s.downcase }
         headers = {
-          "content-length" => content_length,
+          'content-length' => content_length,
           **(@headers || {}),
           **headers,
         }.transform_keys(&to_s_downcase).compact

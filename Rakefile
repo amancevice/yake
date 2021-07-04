@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "bundler/setup"
-require "bundler/gem_tasks"
+require 'bundler/setup'
+require 'bundler/gem_tasks'
 Bundler.require
 
 task :default => :spec
@@ -9,7 +9,7 @@ task :default => :spec
 RSpec::Core::RakeTask.new :spec
 
 namespace :gem do
-  @gem = "pkg/yake-#{Yake::VERSION}.gem"
+  @gem = "pkg/yake-#{ Yake::VERSION }.gem"
   desc "Push #{ @gem } to rubygems.org"
   task :push => %i[spec build git:check] do
     sh %{gem push #{ @gem }}
@@ -17,7 +17,7 @@ namespace :gem do
 end
 
 namespace :git do
-  desc "Check git workspace"
+  desc 'Check git workspace'
   task :check do
     sh %{git diff HEAD --quiet} do |ok|
       abort "\e[31mRefusing to continue - git workspace is dirty\e[0m" unless ok
