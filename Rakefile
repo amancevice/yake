@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'bundler/gem_tasks'
 Bundler.require
 
 task :default => :spec
@@ -9,7 +8,10 @@ task :default => :spec
 RSpec::Core::RakeTask.new :spec
 
 namespace :gem do
+  require 'bundler/gem_tasks'
+
   @gem = "pkg/yake-#{ Yake::VERSION }.gem"
+
   desc "Push #{ @gem } to rubygems.org"
   task :push => %i[spec build git:check] do
     sh %{gem push #{ @gem }}
