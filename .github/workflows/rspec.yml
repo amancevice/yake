@@ -10,18 +10,18 @@ jobs:
     strategy:
       matrix:
         ruby:
+          - 2.5
           - 2.7
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
+          bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
       - uses: amancevice/setup-code-climate@v0
         with:
           cc_test_reporter_id: ${{ secrets.CC_TEST_REPORTER_ID }}
       - run: cc-test-reporter before-build
-      - run: gem install bundler -v 2.1.4
-      - run: bundle install --jobs 4 --retry 3
       - run: bundle exec rake
       - run: cc-test-reporter after-build
         if: ${{ github.event_name != 'pull_request' }}
