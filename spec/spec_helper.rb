@@ -4,6 +4,7 @@ require 'simplecov'
 SimpleCov.start
 
 require 'yake/api'
+require 'yake/datadog'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

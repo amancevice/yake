@@ -6,14 +6,38 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    aws-eventstream (1.2.0)
+    aws-partitions (1.515.0)
+    aws-sdk-core (3.121.1)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-xray (1.4.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.4.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+    aws-xray-sdk (0.11.5)
+      aws-sdk-xray (~> 1.4.0)
+      multi_json (~> 1)
     coderay (1.1.3)
+    datadog-lambda (1.13.0)
+      aws-xray-sdk (~> 0.11.3)
+    ddtrace (0.53.0)
+      ffi (~> 1.0)
+      msgpack
     diff-lcs (1.4.4)
     docile (1.4.0)
+    ffi (1.15.4)
+    jmespath (1.4.0)
     method_source (1.0.0)
+    msgpack (1.4.2)
+    multi_json (1.15.0)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    rake (13.0.3)
+    rake (13.0.6)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -40,6 +64,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  datadog-lambda (~> 1.13)
+  ddtrace (~> 0.53)
   pry (~> 0.14)
   rake (~> 13.0)
   rspec (~> 3.0)
