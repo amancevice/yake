@@ -12,4 +12,5 @@ gem 'simplecov', '~> 0.21'
 group :datadog do
   gem 'ddtrace',        '~> 0.53'
   gem 'datadog-lambda', '~> 1.13'
+  gem 'nokogiri',       '~> 1.12'
 end
