@@ -19,3 +19,11 @@ RSpec.describe Yake::Datadog::DSL do
     end
   end
 end
+
+RSpec.describe Yake::Datadog::MockContext do
+  context '#invoked_function_arn' do
+    it 'should return a mock function ARN' do
+      expect(subject.invoked_function_arn).to eq 'arn:aws:lambda:us-east-1:123456789012:function-name'
+    end
+  end
+end
