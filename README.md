@@ -177,6 +177,32 @@ end
 
 Finally, `yake` does not depend on any other gems, using the Ruby stdlib only. This helps keep your Lambda packages slim & speedy.
 
+## Datadog Integration
+
+As of `~> 0.4`, `yake` comes with a helper for writing Lambdas that integrate with Datadog's `datadog-ruby` gem.
+
+Creating a Lambda handler that wraps the Datadog tooling is easy:
+
+```ruby
+require 'aws-sdk-someservice'
+require 'yake/datadog'
+
+# Configure Datadog to use AWS tracing
+Datadog::Lambda.configure_apm { |config| config.use :aws }
+
+datadog :handler do |event|
+  # …
+end
+```
+
+## Deployment
+
+After writing your Lambda handler code you can deploy it to AWS using any number of tools. I recommend the following tools:
+
+- [Terraform](https://www.terraform.io) — my personal favorite Infrastructure-as-Code tool
+- [AWS SAM](https://aws.amazon.com/serverless/sam/) — a great alternative with less configuration than Terraform
+- [Serverless](https://www.serverless.com) — Supposedly the most popular option, though I have not used it
+
 ## Development
 
 After checking out the repo, run `bundle` to install dependencies. Then, run `rake spec` to run the tests.
