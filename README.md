@@ -9,7 +9,7 @@ Write your AWS Lambda function handlers using a Rake-like declarative syntax:
 
 ```ruby
 # ./lambda_function.rb
-require "yake"
+require 'yake'
 
 handler :lambda_handler do |event|
   # Your code here
@@ -22,11 +22,11 @@ You can even declare Sinatra-like API Gateway routes for a main entrypoint:
 
 ```ruby
 # ./lambda_function.rb
-require "yake/api"
+require 'yake/api'
 
-header "content-type" => "application/json"
+header 'content-type' => 'application/json'
 
-get "/fizz" do
+get '/fizz' do
   respond 200, { ok: true }.to_json
 end
 
@@ -44,7 +44,7 @@ end
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "yake"
+gem 'yake'
 ```
 
 And then execute:
@@ -108,35 +108,35 @@ Requiring the `yake/api` module will add the API-specific DSL into your handler.
 Define API routes using Sinatra-like syntax
 
 ```ruby
-any "/…" do |event|
+any '/…' do |event|
   # Handle 'ANY /…' route key events
 end
 
-delete "/…" do |event|
+delete '/…' do |event|
   # Handle 'DELETE /…' route key events
 end
 
-get "/…" do |event|
+get '/…' do |event|
   # Handle 'GET /…' route key events
 end
 
-head "/…" do |event|
+head '/…' do |event|
   # Handle 'HEAD /…' route key events
 end
 
-options "/…" do |event|
+options '/…' do |event|
   # Handle 'OPTIONS /…' route key events
 end
 
-patch "/…" do |event|
+patch '/…' do |event|
   # Handle 'PATCH /…' route key events
 end
 
-post "/…" do |event|
+post '/…' do |event|
   # Handle 'POST /…' route key events
 end
 
-put "/…" do |event|
+put '/…' do |event|
   # Handle 'PUT /…' route key events
 end
 ```
@@ -146,14 +146,14 @@ Helper methods are also made available to help produce a response for API Gatewa
 Set a default header for ALL responses:
 
 ```ruby
-header "content-type" => "application/json; charset=utf-8"
-header "x-custom-header" => "fizz"
+header 'content-type' => 'application/json; charset=utf-8'
+header 'x-custom-header' => 'fizz'
 ```
 
 Produce an API Gateway-style response object:
 
 ```ruby
-respond 200, { ok: true }.to_json, "x-extra-header" => "buzz"
+respond 200, { ok: true }.to_json, 'x-extra-header' => 'buzz'
 # {
 #   "statusCode" => 200,
 #   "body" => '{"ok":true}',
