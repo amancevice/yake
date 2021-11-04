@@ -82,7 +82,7 @@ REPORT RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf	Duration: 43.97 ms	Billed
 
 Logging the request ID in this way makes gathering logs lines for a particular execution in CloudWatch much easier.
 
-You can or disable the logger:
+You can customize or disable the logger:
 
 ```ruby
 logging :off              # disables logging entirely
