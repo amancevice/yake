@@ -2,8 +2,6 @@ name: RSpec
 on:
   pull_request:
   push:
-  schedule:
-    - cron: "11 21 * * *"
 jobs:
   RSpec:
     name: "Ruby ${{ matrix.ruby }}"
@@ -11,8 +9,8 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - 2.5
-          - 2.7
+          - "2.5"
+          - "2.7"
           - "3.0"
     steps:
       - uses: actions/checkout@v2
