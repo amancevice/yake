@@ -32,8 +32,12 @@ RSpec.describe Yake do
       expect(ret).to eq FIZZ: 'buzz'
       stream.seek 0
       expect(stream.read).to eq <<~EOS
-        INFO - EVENT {"fizz":"buzz"}
-        INFO - RETURN {"FIZZ":"buzz"}
+        INFO - EVENT {
+          "fizz": "buzz"
+        }
+        INFO - RETURN {
+          "FIZZ": "buzz"
+        }
       EOS
       expect(subject.logger.progname).to eq '-'
     end
@@ -43,8 +47,12 @@ RSpec.describe Yake do
       expect(ret).to eq FIZZ: 'buzz'
       stream.seek 0
       expect(stream.read).to eq <<~EOS
-        INFO RequestId: <awsRequestId> EVENT {"fizz":"buzz"}
-        INFO RequestId: <awsRequestId> RETURN {"FIZZ":"buzz"}
+        INFO RequestId: <awsRequestId> EVENT {
+          "fizz": "buzz"
+        }
+        INFO RequestId: <awsRequestId> RETURN {
+          "FIZZ": "buzz"
+        }
       EOS
       expect(subject.logger.progname).to eq '-'
     end
