@@ -5,7 +5,7 @@ require 'logger'
 
 module Yake
   module Logger
-    attr_accessor :logger
+    attr_writer :logger
 
     def logger
       @logger ||= Yake.logger
@@ -27,7 +27,7 @@ module Yake
   end
 
   class << self
-    attr_accessor :logger
+    attr_writer :logger
 
     def logger
       @logger ||= Logger.new
