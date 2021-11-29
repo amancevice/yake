@@ -20,6 +20,26 @@ RSpec.describe Yake::Datadog::DSL do
   end
 end
 
+RSpec.describe Yake::Datadog::Formatter do
+  context '#call' do
+    let(:context)   { OpenStruct.new(aws_request_id: '<awsRequestId>') }
+    let(:formatter) { Yake::Datadog::Formatter.new }
+    let(:stream)    { StringIO.new }
+    let(:now)       { Time.at 1234567890 }
+
+    before { Yake.logger = Yake::Logger.new(stream, formatter: formatter, progname: '-') }
+
+    it 'should format the log for Datadog' do
+      allow_any_instance_of(Time).to receive(:utc).and_return now
+      Yake.logger.info('Hello, world!')
+      stream.seek 0
+      expect(stream.read).to eq <<~EOS
+        [INFO] 2009-02-13T18:31:30.000Z - dd.service=rspec dd.trace_id=0 dd.span_id=0 Hello, world!
+      EOS
+    end
+  end
+end
+
 RSpec.describe Yake::Datadog::MockContext do
   context '#invoked_function_arn' do
     it 'should return a mock function ARN' do

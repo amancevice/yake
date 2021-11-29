@@ -1,10 +1,25 @@
 # frozen_string_literal: true
+require 'logger'
 
 require 'datadog/lambda'
 require 'yake'
 
 module Yake
   module Datadog
+    class Formatter < ::Logger::Formatter
+      Format = "[%s] %s %s %s %s\n"
+
+      def call(severity, time, progname, msg)
+        Format % [
+          severity,
+          time.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ'),
+          progname.nil? ? '-' : progname.split.last,
+          ::Datadog.tracer.active_correlation,
+          msg2str(msg).strip,
+        ]
+      end
+    end
+
     class MockContext < Struct.new(
       :clock_diff,
       :deadline_ms,
@@ -39,6 +54,8 @@ module Yake
       end
     end
   end
+
+  logger.formatter = Datadog::Formatter.new
 end
 
 extend Yake::Datadog::DSL
