@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ENV['TZ'] = 'UTC'
+
 require 'simplecov'
 SimpleCov.start
 
