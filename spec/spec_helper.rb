@@ -8,6 +8,9 @@ SimpleCov.start
 require 'yake/api'
 require 'yake/datadog'
 
+ENV['DD_ENHANCED_METRICS'] = '0'
+Datadog.configure { |config| config.tracer.enabled = false }
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
