@@ -179,6 +179,92 @@ end
 
 Finally, `yake` does not depend on any other gems, using the Ruby stdlib only. This helps keep your Lambda packages slim & speedy.
 
+## Support Helpers
+
+As of `v0.5`, `yake` comes with a support module for common transformations.
+
+`Hash` transformations:
+
+```ruby
+require 'yake/support'
+
+{ fizz: 'buzz' }.encode64
+# => "eyJmaXp6IjoiYnV6eiJ9\n"
+
+{ fizz: 'buzz' }.strict_encode64
+# => "eyJmaXp6IjoiYnV6eiJ9"
+
+{ 'fizz' => { 'buzz' => %w[jazz fuzz] } }.symbolize_names
+# => { :fizz => { :buzz => ["jazz", "fuzz"] } }
+
+{ fizz: 'buzz' }.to_form
+# => "fizz=buzz"
+```
+
+`Integer` transformations:
+
+```ruby
+7.days
+# => 604800
+
+7.hours
+# => 25200
+
+7.minutes
+# => 420
+
+1234567890.utc
+# => 2009-02-13 23:31:30 UTC
+```
+
+`String` transformations:
+
+```ruby
+'snake_case_string'.camel_case
+# => SnakeCaseString
+
+"Zml6eg==\n".decode64
+# => "fizz"
+
+'fizz'.encode64
+# => "Zml6eg==\n"
+
+'CamelCaseString'.snake_case
+# => 'camel_case_string'
+
+'Zml6eg=='.strict_decode64
+# => "fizz"
+
+'fizz'.strict_encode64
+# => "Zml6eg=="
+
+'{"fizz":"buzz"}'.to_h_from_json
+# => { "fizz" => "buzz" }
+
+'fizz=buzz'.to_h_from_form
+# => { "fizz" => "buzz" }
+```
+
+`Symbol` transformations
+
+```ruby
+:snake_case_symbol.camel_case
+# => :SnakeCaseSymbol
+
+:CamelCaseSymbol.snake_case
+# => 'camel_case_symbol'
+```
+
+`UTC` Time helper
+
+```ruby
+UTC.at 1234567890
+# => 2009-02-13 23:31:30 UTC
+
+UTC.now
+# => 2022-02-26 13:57:07.860539 UTC
+```
+
 ## Datadog Integration
 
 As of `~> 0.4`, `yake` comes with a helper for writing Lambdas that integrate with Datadog's `datadog-ruby` gem.
