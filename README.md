@@ -183,11 +183,15 @@ Finally, `yake` does not depend on any other gems, using the Ruby stdlib only. T
 
 As of `v0.5`, `yake` comes with a support module for common transformations.
 
-`Hash` transformations:
+Enable the helpers by requiring the `support` submodule:
 
 ```ruby
 require 'yake/support'
+```
 
+`Hash` transformations:
+
+```ruby
 { fizz: 'buzz' }.encode64
 # => "eyJmaXp6IjoiYnV6eiJ9\n"
 
