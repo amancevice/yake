@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    yake (0.4.3)
+    yake (0.5.0)
 
 GEM
   remote: https://rubygems.org/
