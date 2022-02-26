@@ -34,7 +34,11 @@ GEM
     method_source (1.0.0)
     msgpack (1.4.5)
     multi_json (1.15.0)
+    nokogiri (1.13.3-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.13.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -63,6 +67,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  arm64-darwin-21
   x86_64-darwin-20
   x86_64-linux
 
