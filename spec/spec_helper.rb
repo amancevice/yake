@@ -7,6 +7,7 @@ SimpleCov.start
 
 require 'yake/api'
 require 'yake/datadog'
+require 'yake/support'
 
 ENV['DD_ENHANCED_METRICS'] = '0'
 Datadog.configure { |config| config.tracer.enabled = false }
