@@ -181,7 +181,7 @@ Finally, `yake` does not depend on any other gems, using the Ruby stdlib only. T
 
 ## Support Helpers
 
-As of `v0.5`, `yake` comes with a support module for common transformations.
+As of `~> 0.5`, `yake` comes with a support module for common transformations.
 
 Enable the helpers by requiring the `support` submodule:
 
@@ -208,11 +208,14 @@ require 'yake/support'
 `Integer` transformations:
 
 ```ruby
+7.weeks
+# => 4_233_600
+
 7.days
-# => 604800
+# => 604_800
 
 7.hours
-# => 25200
+# => 25_200
 
 7.minutes
 # => 420
