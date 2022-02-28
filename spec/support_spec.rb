@@ -29,6 +29,12 @@ end
 RSpec.describe Integer do
   subject { 1_234_567_890 }
 
+  context '#weeks' do
+    it 'should convert the Integer from weeks to seconds' do
+      expect(subject.weeks).to eq 746_666_659_872_000
+    end
+  end
+
   context '#days' do
     it 'should convert the Integer from days to seconds' do
       expect(subject.days).to eq 106_666_665_696_000

@@ -10,11 +10,18 @@ class Hash
 end
 
 class Integer
+  def weeks() days * 7 end
   def days() hours * 24 end
   def hours() minutes * 60 end
   def minutes() seconds * 60 end
   def seconds() self end
   def utc() UTC.at(self) end
+
+  alias :second :seconds
+  alias :minute :minutes
+  alias :hour :hours
+  alias :day :days
+  alias :week :weeks
 end
 
 class String
