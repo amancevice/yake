@@ -67,6 +67,12 @@ RSpec.describe Integer do
 end
 
 RSpec.describe String do
+  context '#/' do
+    it 'should concat the path parts' do
+      expect('https://example.com/'/'/path/to/resource/').to eq 'https://example.com/path/to/resource/'
+    end
+  end
+
   context '#camel_case' do
     it 'should convert a snake_case String to CamelCase' do
       expect('snake_case_string'.camel_case).to eq 'SnakeCaseString'

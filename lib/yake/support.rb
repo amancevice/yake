@@ -25,6 +25,7 @@ class Integer
 end
 
 class String
+  def /(path) File.join(self, path.to_s) end
   def camel_case() split(/_/).map(&:capitalize).join end
   def decode64() Base64.decode64(self) end
   def encode64() Base64.encode64(self) end
