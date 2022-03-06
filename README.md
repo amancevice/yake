@@ -227,6 +227,11 @@ require 'yake/support'
 `String` transformations:
 
 ```ruby
+host = 'https://example.com/'
+path = '/path/to/resource'
+host / path
+# => "https://example.com/path/to/resource"
+
 'snake_case_string'.camel_case
 # => SnakeCaseString
 
