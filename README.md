@@ -67,11 +67,11 @@ gem install yake
 
 So why use `yake` for your Lambda functions?
 
-#### Event Logging
+### Event Logging
 
 By default, the `handler` function wraps its block in log lines formatted to match the style of Amazon's native Lambda logs sent to CloudWatch. Each invocation of the handler will log both the _input event_ and the _returned value_, prefixed with the ID of the request:
 
-```
+```plaintext
 START RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf Version: $LATEST
 INFO RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf EVENT { … }
 …
@@ -101,7 +101,7 @@ Fizz.new.logger == Yake.logger
 # => true
 ```
 
-#### API Routes
+### API Routes
 
 A common use of Lambda functions is as a proxy for API Gateway. Oftentimes users will deploy a single Lambda function to handle all requests coming from API Gateway.
 
@@ -168,14 +168,14 @@ Route an event to one of the declared routes:
 ```ruby
 handler :lambda_handler do |event|
   route event
-rescue Yake::UndeclaredRoute => err
+rescue Yake::Errors::UndeclaredRoute => err
   respond 404, { message: err.message }.to_json
 rescue => err
   respond 500, { message: err.message }.to_json
 end
 ```
 
-#### Zero Dependencies
+### Zero Dependencies
 
 Finally, `yake` does not depend on any other gems, using the Ruby stdlib only. This helps keep your Lambda packages slim & speedy.
 
