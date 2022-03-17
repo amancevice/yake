@@ -233,7 +233,7 @@ host / path
 # => "https://example.com/path/to/resource"
 
 'snake_case_string'.camel_case
-# => SnakeCaseString
+# => "SnakeCaseString"
 
 "Zml6eg==\n".decode64
 # => "fizz"
@@ -242,7 +242,7 @@ host / path
 # => "Zml6eg==\n"
 
 'CamelCaseString'.snake_case
-# => 'camel_case_string'
+# => "camel_case_string"
 
 'Zml6eg=='.strict_decode64
 # => "fizz"
@@ -264,7 +264,7 @@ host / path
 # => :SnakeCaseSymbol
 
 :CamelCaseSymbol.snake_case
-# => 'camel_case_symbol'
+# => :camel_case_symbol
 ```
 
 `UTC` Time helper
