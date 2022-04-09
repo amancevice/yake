@@ -13,6 +13,12 @@ RSpec.describe Hash do
     end
   end
 
+  context '#stringify_names' do
+    it 'should convert the keys of a Hash to symbols' do
+      expect(subject.symbolize_names.stringify_names).to eq subject
+    end
+  end
+
   context '#symbolize_names' do
     it 'should convert the keys of a Hash to symbols' do
       expect(subject.symbolize_names).to eq fizz: 'buzz'

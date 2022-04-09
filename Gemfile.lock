@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    yake (0.5.2)
+    yake (0.5.3)
 
 GEM
   remote: https://rubygems.org/
@@ -69,6 +69,7 @@ PLATFORMS
   arm64-darwin-20
   arm64-darwin-21
   x86_64-darwin-20
+  x86_64-darwin-21
   x86_64-linux
 
 DEPENDENCIES

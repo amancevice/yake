@@ -5,6 +5,7 @@ require 'time'
 class Hash
   def encode64() to_json.encode64 end
   def strict_encode64() to_json.strict_encode64 end
+  def stringify_names() JSON.parse(to_json) end
   def symbolize_names() JSON.parse(to_json, symbolize_names: true) end
   def to_form() URI.encode_www_form(self) end
 end
