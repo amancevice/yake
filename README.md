@@ -205,6 +205,9 @@ MyObject.new.try(:some_method)
 { fizz: 'buzz' }.encode64
 # => "eyJmaXp6IjoiYnV6eiJ9\n"
 
+{ fizz: 'buzz', jazz: 'fuzz' }.except(:buzz)
+# => { :fizz => 'buzz' }
+
 { fizz: 'buzz' }.strict_encode64
 # => "eyJmaXp6IjoiYnV6eiJ9"
 
