@@ -198,6 +198,9 @@ require 'yake/support'
 { fizz: 'buzz' }.strict_encode64
 # => "eyJmaXp6IjoiYnV6eiJ9"
 
+{ fizz: { buzz: %w[jazz fuzz] } }.stringify_names
+# => { "fizz" => { "buzz" => ["jazz", "fuzz"] } }
+
 { 'fizz' => { 'buzz' => %w[jazz fuzz] } }.symbolize_names
 # => { :fizz => { :buzz => ["jazz", "fuzz"] } }
 
@@ -205,7 +208,7 @@ require 'yake/support'
 # => "fizz=buzz"
 ```
 
-`Integer` transformations:
+`Integer` helpers:
 
 ```ruby
 7.weeks
@@ -224,7 +227,7 @@ require 'yake/support'
 # => 2009-02-13 23:31:30 UTC
 ```
 
-`String` transformations:
+`String` helpers:
 
 ```ruby
 host = 'https://example.com/'
@@ -257,7 +260,7 @@ host / path
 # => { "fizz" => "buzz" }
 ```
 
-`Symbol` transformations
+`Symbol` helpers
 
 ```ruby
 :snake_case_symbol.camel_case
@@ -267,7 +270,7 @@ host / path
 # => :camel_case_symbol
 ```
 
-`UTC` Time helper
+`UTC` Time helpers
 
 ```ruby
 UTC.at 1234567890
