@@ -189,7 +189,17 @@ Enable the helpers by requiring the `support` submodule:
 require 'yake/support'
 ```
 
-`Hash` transformations:
+`Object` helpers:
+
+```ruby
+MyObject.new.some_method
+# => NoMethodError
+
+MyObject.new.try(:some_method)
+# => nil
+```
+
+`Hash` helpers:
 
 ```ruby
 { fizz: 'buzz' }.encode64

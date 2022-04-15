@@ -26,6 +26,14 @@ class Integer
   alias :week :weeks
 end
 
+class Object
+  def try(method, *args, **kwargs)
+    send(method, *args, **kwargs)
+  rescue
+    nil
+  end
+end
+
 class String
   def /(path) File.join(self, path.to_s) end
   def camel_case() split(/_/).map(&:capitalize).join end

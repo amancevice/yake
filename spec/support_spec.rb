@@ -78,6 +78,20 @@ RSpec.describe Integer do
   end
 end
 
+RSpec.describe Object do
+  subject { 'Hello, World!' }
+
+  context '#try' do
+    it 'should try (and succeed) to execute the given method' do
+      expect(subject.try :encode, 'ascii').to eq subject
+    end
+
+    it 'should try (and fail) to execute the given method' do
+      expect(subject.try :fizz).to be nil
+    end
+  end
+end
+
 RSpec.describe String do
   context '#/' do
     it 'should concat the path parts' do
