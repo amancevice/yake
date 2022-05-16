@@ -52,6 +52,7 @@ class Symbol
 end
 
 class UTC < Time
+  def initialize(...) super.utc end
   def self.at(...) super.utc end
   def self.now() super.utc end
 end
