@@ -27,10 +27,10 @@ class Integer
 end
 
 class Object
-  def try(method, *args, **kwargs)
+  def try(method, *args, **kwargs, &block)
     send(method, *args, **kwargs)
   rescue
-    nil
+    block_given? ? yield(self) : nil
   end
 end
 

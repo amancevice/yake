@@ -197,6 +197,9 @@ MyObject.new.some_method
 
 MyObject.new.try(:some_method)
 # => nil
+
+10.try(:some_method) { |x| x ** 2 }
+# => 100
 ```
 
 `Hash` helpers:
