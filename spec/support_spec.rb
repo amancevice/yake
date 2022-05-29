@@ -1,6 +1,14 @@
 RSpec.describe Hash do
   subject { { 'fizz' => 'buzz', 'jazz' => 'fuzz' } }
 
+  context '#deep_sort' do
+    subject { { f: 'g', a: { d: 'e', b: 'c' } } }
+
+    it 'should sort the Hash before converting to JSON' do
+      expect(subject.deep_sort).to eq(a: { b: 'c', d: 'e' }, f: 'g')
+    end
+  end
+
   context '#encode64' do
     it 'should transform a Hash to a Base64-encoded string' do
       expect(subject.encode64).to eq "eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6In0=\n"
@@ -34,6 +42,14 @@ RSpec.describe Hash do
   context '#to_form' do
     it 'should convert the Hash to a web form' do
       expect(subject.to_form).to eq 'fizz=buzz&jazz=fuzz'
+    end
+  end
+
+  context '#to_json_sorted' do
+    subject { { f: 'g', a: { d: 'e', b: 'c' } } }
+
+    it 'should sort the Hash before converting to JSON' do
+      expect(subject.to_json_sorted).to eq '{"a":{"b":"c","d":"e"},"f":"g"}'
     end
   end
 end

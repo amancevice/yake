@@ -205,6 +205,9 @@ MyObject.new.try(:some_method)
 `Hash` helpers:
 
 ```ruby
+{ f: 'g', a: { d: 'e', b: 'c' } }.deep_sort
+# => { a: { b: 'c', d: 'e' }, f: 'g' }
+
 { fizz: 'buzz' }.encode64
 # => "eyJmaXp6IjoiYnV6eiJ9\n"
 
@@ -222,6 +225,10 @@ MyObject.new.try(:some_method)
 
 { fizz: 'buzz' }.to_form
 # => "fizz=buzz"
+
+{ f: 'g', a: { d: 'e', b: 'c' } }.to_json_sorted
+# => '{"a":{"b":"c","d":"e"},"f":"g"}'
+
 ```
 
 `Integer` helpers:

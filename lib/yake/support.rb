@@ -3,12 +3,14 @@ require 'json'
 require 'time'
 
 class Hash
+  def deep_sort() self.sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h end
   def encode64() to_json.encode64 end
   def except(*keys) self.reject { |key,_| keys.include? key } end
   def strict_encode64() to_json.strict_encode64 end
   def stringify_names() JSON.parse(to_json) end
   def symbolize_names() JSON.parse(to_json, symbolize_names: true) end
   def to_form() URI.encode_www_form(self) end
+  def to_json_sorted() deep_sort.to_json end
 end
 
 class Integer
