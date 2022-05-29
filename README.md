@@ -267,6 +267,12 @@ host / path
 'fizz'.encode64
 # => "Zml6eg==\n"
 
+'fizz'.md5sum
+# => "b6bfa6c318811be022d4f73070597660"
+
+'fizz'.sha1sum
+# => "c25f5985f2ab63baeb2408a2d7dbc79d8f29d02f"
+
 'CamelCaseString'.snake_case
 # => "camel_case_string"
 

@@ -137,6 +137,19 @@ RSpec.describe String do
     end
   end
 
+  context '#md5sum' do
+    it 'should return the MD5 checksum of the string' do
+      expect('fizz'.md5sum).to eq 'b6bfa6c318811be022d4f73070597660'
+    end
+  end
+
+  context '#sha1sum' do
+    it 'should return the SHA1 checksum of the string' do
+      expect('fizz'.sha1sum).to eq 'c25f5985f2ab63baeb2408a2d7dbc79d8f29d02f'
+    end
+  end
+
+
   context '#snake_case' do
     it 'should convert the String from CamelCase to snake_case' do
       expect('SnakeCaseString'.snake_case).to eq 'snake_case_string'

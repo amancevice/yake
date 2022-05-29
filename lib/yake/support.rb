@@ -1,4 +1,5 @@
 require 'base64'
+require 'digest'
 require 'json'
 require 'time'
 
@@ -41,6 +42,8 @@ class String
   def camel_case() split(/_/).map(&:capitalize).join end
   def decode64() Base64.decode64(self) end
   def encode64() Base64.encode64(self) end
+  def md5sum() Digest::MD5.hexdigest(self) end
+  def sha1sum() Digest::SHA1.hexdigest(self) end
   def snake_case() gsub(/([a-z])([A-Z])/, '\1_\2').downcase end
   def strict_decode64() Base64.strict_decode64(self) end
   def strict_encode64() Base64.strict_encode64(self) end
