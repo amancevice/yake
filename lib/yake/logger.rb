@@ -12,7 +12,7 @@ module Yake
     end
 
     class << self
-      def new(logdev = $stdout, **params)
+      def new(logdev = $stderr, **params)
         ::Logger.new(logdev, formatter: Formatter.new, **params)
       end
     end

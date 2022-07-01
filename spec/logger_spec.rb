@@ -2,8 +2,8 @@ RSpec.describe Yake::Logger do
   context '::new' do
     let(:stream) { StringIO.new }
 
-    it 'should use STDOUT by default' do
-      expect(Yake::Logger.new.instance_variable_get(:@logdev).dev).to eq $stdout
+    it 'should use STDERR by default' do
+      expect(Yake::Logger.new.instance_variable_get(:@logdev).dev).to eq $stderr
     end
 
     it 'should use stream if supplied' do
