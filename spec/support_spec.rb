@@ -1,11 +1,42 @@
 RSpec.describe Hash do
   subject { { 'fizz' => 'buzz', 'jazz' => 'fuzz' } }
 
-  context '#deep_sort' do
+  context '#deep_*' do
     subject { { f: 'g', a: { d: 'e', b: 'c' } } }
 
-    it 'should sort the Hash before converting to JSON' do
-      expect(subject.deep_sort).to eq(a: { b: 'c', d: 'e' }, f: 'g')
+    context '#deep_keys' do
+      it 'should return all the keys in the nested Hash' do
+        expect(subject.deep_keys).to eq %i[f a d b]
+      end
+    end
+
+    context '#deep_sort' do
+      it 'should sort the Hash before converting to JSON' do
+        expect(subject.deep_sort).to eq(a: { b: 'c', d: 'e' }, f: 'g')
+      end
+    end
+
+    context '#deep_transform_keys' do
+      it 'should transform the keys' do
+        expect(subject.deep_transform_keys(&:to_s)).to eq subject.to_json.to_h_from_json
+      end
+
+      it 'should do nothing' do
+        expect(subject.deep_transform_keys).to eq subject
+      end
+    end
+
+    context '#deep_transform_keys!' do
+      let(:subject_clone) { subject.deep_transform_keys(&:to_s) }
+
+      it 'should transform the keys deeply in place' do
+        subject_clone.deep_transform_keys!(&:to_sym)
+        expect(subject_clone).to eq subject
+      end
+
+      it 'should do nothing' do
+        expect(subject_clone.deep_transform_keys!).to eq subject_clone
+      end
     end
   end
 
@@ -28,14 +59,32 @@ RSpec.describe Hash do
   end
 
   context '#stringify_names' do
-    it 'should convert the keys of a Hash to symbols' do
+    it 'should convert the keys of a Hash to strings' do
       expect(subject.symbolize_names.stringify_names).to eq subject
+    end
+  end
+
+  context '#stringify_names!' do
+    let(:subject_clone) { JSON.parse subject.to_json, symbolize_names: true }
+
+    it 'should convert the keys of a Hash to strings in place' do
+      subject_clone.stringify_names!
+      expect(subject_clone).to eq subject
     end
   end
 
   context '#symbolize_names' do
     it 'should convert the keys of a Hash to symbols' do
       expect(subject.symbolize_names).to eq fizz: 'buzz', jazz: 'fuzz'
+    end
+  end
+
+  context '#symbolize_names!' do
+    let(:subject_clone) { JSON.parse subject.to_json }
+
+    it 'should convert the keys of a Hash to symbols in place' do
+      subject_clone.symbolize_names!
+      expect(subject_clone).to eq subject.deep_transform_keys(&:to_sym)
     end
   end
 

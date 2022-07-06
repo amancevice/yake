@@ -205,6 +205,16 @@ MyObject.new.try(:some_method)
 `Hash` helpers:
 
 ```ruby
+{ a: { b: 'c', d: 'e' }, f: 'g' }.deep_keys
+# => [:a, :b, :d, :f]
+
+{ a: { b: 'c', d: 'e' }, f: 'g' }.deep_transform_keys(&:to_s)
+# => { "a" => { "b" => "c", "d" => "e" }, "f" => "g" }
+
+hash = { a: { b: 'c', d: 'e' }, f: 'g' }
+hash.deep_transform_keys!(&:to_s)
+# => { "a" => { "b" => "c", "d" => "e" }, "f" => "g" }
+
 { f: 'g', a: { d: 'e', b: 'c' } }.deep_sort
 # => { a: { b: 'c', d: 'e' }, f: 'g' }
 

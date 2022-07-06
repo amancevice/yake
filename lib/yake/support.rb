@@ -4,14 +4,32 @@ require 'json'
 require 'time'
 
 class Hash
-  def deep_sort() self.sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h end
+  def deep_keys() map { |k,v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten end
+  def deep_sort() sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h end
   def encode64() to_json.encode64 end
-  def except(*keys) self.reject { |key,_| keys.include? key } end
+  def except(*keys) reject { |key,_| keys.include? key } end
   def strict_encode64() to_json.strict_encode64 end
-  def stringify_names() JSON.parse(to_json) end
-  def symbolize_names() JSON.parse(to_json, symbolize_names: true) end
+  def stringify_names() deep_transform_keys(&:to_s) end
+  def stringify_names!() deep_transform_keys!(&:to_s) end
+  def symbolize_names() deep_transform_keys(&:to_sym) end
+  def symbolize_names!() deep_transform_keys!(&:to_sym) end
   def to_form() URI.encode_www_form(self) end
   def to_json_sorted() deep_sort.to_json end
+
+
+  def deep_transform_keys(&block)
+    block_given? ? transform_keys(&block).map do |key, val|
+      val = val.deep_transform_keys(&block) if val.respond_to?(:deep_transform_keys)
+      [key, val]
+    end.to_h : self
+  end
+
+  def deep_transform_keys!(&block)
+    block_given? ? transform_keys!(&block).map do |key, val|
+      val = val.deep_transform_keys!(&block) if val.respond_to?(:deep_transform_keys!)
+      [key, val]
+    end.to_h : self
+  end
 end
 
 class Integer
