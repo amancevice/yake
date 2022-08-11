@@ -1,5 +1,5 @@
 RSpec.describe Hash do
-  subject { { 'fizz' => 'buzz', 'jazz' => 'fuzz' } }
+  subject { { 'fizz' => 'buzz', 'jazz' => 'fuzz', 'razz' => [{'mtaz' => 'hazz'}] } }
 
   context '#deep_*' do
     subject { { f: 'g', a: { d: 'e', b: 'c' } } }
@@ -42,19 +42,19 @@ RSpec.describe Hash do
 
   context '#encode64' do
     it 'should transform a Hash to a Base64-encoded string' do
-      expect(subject.encode64).to eq "eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6In0=\n"
+      expect(subject.encode64).to eq "eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6\nImhhenoifV19\n"
     end
   end
 
   context '#except' do
     it 'should return a new Hash without the provided keys' do
-      expect(subject.except('fizz')).to eq('jazz' => 'fuzz')
+      expect(subject.except('fizz', 'razz')).to eq('jazz' => 'fuzz')
     end
   end
 
   context '#strict_encode64' do
     it 'should transform a Hash to a strict Base64-encoded string' do
-      expect(subject.strict_encode64).to eq 'eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6In0='
+      expect(subject.strict_encode64).to eq 'eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6ImhhenoifV19'
     end
   end
 
@@ -75,7 +75,11 @@ RSpec.describe Hash do
 
   context '#symbolize_names' do
     it 'should convert the keys of a Hash to symbols' do
-      expect(subject.symbolize_names).to eq fizz: 'buzz', jazz: 'fuzz'
+      expect(subject.symbolize_names).to eq(
+        fizz: 'buzz',
+        jazz: 'fuzz',
+        razz: [ { mtaz: 'hazz' } ],
+      )
     end
   end
 
@@ -90,7 +94,7 @@ RSpec.describe Hash do
 
   context '#to_form' do
     it 'should convert the Hash to a web form' do
-      expect(subject.to_form).to eq 'fizz=buzz&jazz=fuzz'
+      expect(subject.to_form).to eq 'fizz=buzz&jazz=fuzz&razz=%7B%22mtaz%22%3D%3E%22hazz%22%7D'
     end
   end
 

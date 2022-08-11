@@ -16,18 +16,18 @@ class Hash
   def to_form() URI.encode_www_form(self) end
   def to_json_sorted() deep_sort.to_json end
 
-
   def deep_transform_keys(&block)
-    block_given? ? transform_keys(&block).map do |key, val|
-      val = val.deep_transform_keys(&block) if val.respond_to?(:deep_transform_keys)
-      [key, val]
-    end.to_h : self
+    deep_transform(:transform_keys, &block)
   end
 
   def deep_transform_keys!(&block)
-    block_given? ? transform_keys!(&block).map do |key, val|
-      val = val.deep_transform_keys!(&block) if val.respond_to?(:deep_transform_keys!)
-      [key, val]
+    deep_transform(:transform_keys!, &block)
+  end
+
+  private def deep_transform(method, &block)
+    f = -> (x) { x.respond_to?(:"deep_#{method}") ? x.send(:"deep_#{method}", &block) : x }
+    block_given? ? send(method, &block).map do |key, val|
+      [key, val.is_a?(Array) ? val.map(&f) : val.then(&f)]
     end.to_h : self
   end
 end
