@@ -29,7 +29,7 @@ module Yake
     class RequestTimeout < Error; end                # HTTP 408
     class Conflict < Error; end                      # HTTP 409
     class Gone < Error; end                          # HTTP 410
-    class LengthRequired < Error; end                # HTTP 410
+    class LengthRequired < Error; end                # HTTP 411
     class PreconditionFailed < Error; end            # HTTP 412
     class PayloadTooLarge < Error; end               # HTTP 413
     class UriTooLong < Error; end                    # HTTP 414
@@ -58,6 +58,54 @@ module Yake
     class InsufficientStorage < Error; end           # HTTP 507
     class LoopDetected < Error; end                  # HTTP 508
     class NotExtended < Error; end                   # HTTP 510
-    class NetworkAuthenticationRequired < Error; end # HTTP 507
+    class NetworkAuthenticationRequired < Error; end # HTTP 511
+
+    ERRORS = {
+      '400' => BadRequest,
+      '401' => Unauthorized,
+      '402' => PaymentRequired,
+      '403' => Forbidden,
+      '404' => NotFound,
+      '405' => MethodNotAllowed,
+      '406' => NotAcceptable,
+      '407' => ProxyAuthenticationRequired,
+      '408' => RequestTimeout,
+      '409' => Conflict,
+      '410' => Gone,
+      '411' => LengthRequired,
+      '412' => PreconditionFailed,
+      '413' => PayloadTooLarge,
+      '414' => UriTooLong,
+      '415' => UnsupportedMediaType,
+      '416' => RangeNotSatisfiable,
+      '417' => ExpectationFailed,
+      '418' => ImATeapot,
+      '420' => EnhanceYourCalm,
+      '421' => MisdirectedRequest,
+      '422' => UnprocessableEntity,
+      '423' => Locked,
+      '424' => FailedDependency,
+      '425' => TooEarly,
+      '426' => UpgradeRequired,
+      '428' => PreconditionRequired,
+      '429' => TooManyRequests,
+      '431' => RequestHeaderFieldsTooLarge,
+      '451' => UnavailableForLegalReasons,
+      '500' => InternalServerError,
+      '501' => NotImplemented,
+      '502' => BadGateway,
+      '503' => ServiceUnavailable,
+      '504' => GatewayTimeout,
+      '505' => HttpVersionNotSupported,
+      '506' => VariantAlsoNegotiates,
+      '507' => InsufficientStorage,
+      '508' => LoopDetected,
+      '510' => NotExtended,
+      '511' => NetworkAuthenticationRequired,
+    }
+
+    def self.[](code)
+      ERRORS.fetch(code.to_s)
+    end
   end
 end
