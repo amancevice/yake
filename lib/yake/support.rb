@@ -15,6 +15,7 @@ class Hash
   def symbolize_names!() deep_transform_keys!(&:to_sym) end
   def to_form() URI.encode_www_form(self) end
   def to_json_sorted() deep_sort.to_json end
+  def to_struct() OpenStruct.new(self) end
 
   def deep_transform_keys(&block)
     deep_transform(:transform_keys, &block)
@@ -22,6 +23,22 @@ class Hash
 
   def deep_transform_keys!(&block)
     deep_transform(:transform_keys!, &block)
+  end
+
+  def to_deep_struct
+    to_struct.tap do |struct|
+      struct.to_h.each do |key, val|
+        struct[key] = if val.is_a?(Array)
+          val.map do |item|
+            item.respond_to?(:to_deep_struct) ? item.to_deep_struct : item
+          end
+        elsif val.is_a?(Hash)
+          val.to_deep_struct
+        else
+          val
+        end
+      end
+    end
   end
 
   private def deep_transform(method, &block)

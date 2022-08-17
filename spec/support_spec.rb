@@ -1,5 +1,12 @@
 RSpec.describe Hash do
-  subject { { 'fizz' => 'buzz', 'jazz' => 'fuzz', 'razz' => [{'mtaz' => 'hazz'}] } }
+  subject do
+    {
+      'fizz' => 'buzz',
+      'jazz' => 'fuzz',
+      'razz' => [{'mtaz' => 'hazz'}],
+      'wizz' => { 'kizz' => 'kazz'},
+    }
+  end
 
   context '#deep_*' do
     subject { { f: 'g', a: { d: 'e', b: 'c' } } }
@@ -42,19 +49,19 @@ RSpec.describe Hash do
 
   context '#encode64' do
     it 'should transform a Hash to a Base64-encoded string' do
-      expect(subject.encode64).to eq "eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6\nImhhenoifV19\n"
+      expect(subject.encode64).to eq "eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6\nImhhenoifV0sIndpenoiOnsia2l6eiI6ImthenoifX0=\n"
     end
   end
 
   context '#except' do
     it 'should return a new Hash without the provided keys' do
-      expect(subject.except('fizz', 'razz')).to eq('jazz' => 'fuzz')
+      expect(subject.except('fizz', 'razz')).to eq('jazz' => 'fuzz', 'wizz' => { 'kizz' => 'kazz' })
     end
   end
 
   context '#strict_encode64' do
     it 'should transform a Hash to a strict Base64-encoded string' do
-      expect(subject.strict_encode64).to eq 'eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6ImhhenoifV19'
+      expect(subject.strict_encode64).to eq 'eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6ImhhenoifV0sIndpenoiOnsia2l6eiI6ImthenoifX0='
     end
   end
 
@@ -79,6 +86,7 @@ RSpec.describe Hash do
         fizz: 'buzz',
         jazz: 'fuzz',
         razz: [ { mtaz: 'hazz' } ],
+        wizz: { kizz: 'kazz' },
       )
     end
   end
@@ -92,9 +100,15 @@ RSpec.describe Hash do
     end
   end
 
+  context '#to_deep_struct' do
+    it 'should convert the Hash to a nested OpenStruct' do
+      expect(subject.to_deep_struct.razz.first.mtaz).to eq 'hazz'
+    end
+  end
+
   context '#to_form' do
     it 'should convert the Hash to a web form' do
-      expect(subject.to_form).to eq 'fizz=buzz&jazz=fuzz&razz=%7B%22mtaz%22%3D%3E%22hazz%22%7D'
+      expect(subject.to_form).to eq 'fizz=buzz&jazz=fuzz&razz=%7B%22mtaz%22%3D%3E%22hazz%22%7D&wizz=%7B%22kizz%22%3D%3E%22kazz%22%7D'
     end
   end
 
