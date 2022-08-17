@@ -239,6 +239,11 @@ hash.deep_transform_keys!(&:to_s)
 { f: 'g', a: { d: 'e', b: 'c' } }.to_json_sorted
 # => '{"a":{"b":"c","d":"e"},"f":"g"}'
 
+{ f: 'g', a: { d: 'e', b: 'c' } }.to_struct
+# => #<OpenStruct f="g", a={:d=>"e", :b=>"c"}>
+
+{ f: 'g', a: { d: 'e', b: 'c' } }.to_deep_struct
+# => #<OpenStruct f="g", a=#<OpenStruct d="e", b="c">>
 ```
 
 `Integer` helpers:
@@ -297,6 +302,9 @@ host / path
 
 'fizz=buzz'.to_h_from_form
 # => { "fizz" => "buzz" }
+
+'2009-02-13T23:31:30Z'.utc
+# => 2009-02-13 23:31:30 UTC
 ```
 
 `Symbol` helpers
