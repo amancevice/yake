@@ -246,6 +246,12 @@ RSpec.describe String do
       expect('fizz=buzz'.to_h_from_form).to eq 'fizz' => 'buzz'
     end
   end
+
+  context '#utc' do
+    it 'should parse a string as a UTC time' do
+      expect('2009-02-13T23:31:30Z'.utc.to_i).to eq 1234567890
+    end
+  end
 end
 
 RSpec.describe Symbol do

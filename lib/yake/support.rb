@@ -84,6 +84,7 @@ class String
   def strict_encode64() Base64.strict_encode64(self) end
   def to_h_from_json(**params) JSON.parse(self, **params) end
   def to_h_from_form() URI.decode_www_form(self).to_h end
+  def utc() UTC.parse(self) end
 end
 
 class Symbol
