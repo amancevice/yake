@@ -22,7 +22,7 @@ module Yake
 
     ##
     # Turn logging on/off
-    def logging(switch = :on, logger = nil, pretty: true)
+    def logging(switch = :on, logger = nil, pretty: false)
       Yake.pretty = pretty
       if switch == :on
         Yake.logger = logger

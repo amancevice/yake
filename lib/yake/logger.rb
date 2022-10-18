@@ -34,7 +34,7 @@ module Yake
     end
 
     def pretty?
-      @pretty != false
+      @pretty == true
     end
 
     def wrap(event = nil, context = nil, &block)
