@@ -1,6 +1,6 @@
 # λake
 
-![gem](https://img.shields.io/gem/v/yake?color=crimson&logo=rubygems&logoColor=eee&style=flat-square)
+[![gem](https://img.shields.io/gem/v/yake?color=crimson&logo=rubygems&logoColor=eee&style=flat-square)](https://rubygems.org/gems/yake)
 [![rspec](https://img.shields.io/github/workflow/status/amancevice/yake/RSpec?logo=github&style=flat-square)](https://github.com/amancevice/yake/actions)
 [![coverage](https://img.shields.io/codeclimate/coverage/amancevice/yake?logo=code-climate&style=flat-square)](https://codeclimate.com/github/amancevice/yake/test_coverage)
 [![maintainability](https://img.shields.io/codeclimate/maintainability/amancevice/yake?logo=code-climate&style=flat-square)](https://codeclimate.com/github/amancevice/yake/maintainability)
