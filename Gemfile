@@ -10,7 +10,7 @@ gem 'rspec',     '~> 3.0', require: 'rspec/core/rake_task'
 gem 'simplecov', '~> 0.21'
 
 group :datadog do
-  gem 'ddtrace',        '~> 0.54'
-  gem 'datadog-lambda', '~> 1.14'
-  gem 'nokogiri',       '~> 1.12'
+  gem 'ddtrace'
+  gem 'datadog-lambda'
+  gem 'nokogiri'
 end

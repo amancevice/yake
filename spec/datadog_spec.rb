@@ -7,7 +7,7 @@ RSpec.describe Yake::Datadog::DSL do
   before do
     runtime_class.logging :off
     require 'aws-sdk-core'
-    Datadog::Lambda.configure_apm { |config| config.use :aws }
+    Datadog::Lambda.configure_apm { |c| c.tracing.instrument :aws }
   end
 
   context '#datadog' do

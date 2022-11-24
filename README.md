@@ -331,6 +331,8 @@ UTC.now
 
 As of `~> 0.4`, `yake` comes with a helper for writing Lambdas that integrate with Datadog's `datadog-ruby` gem.
 
+As of `~> 0.8`, `yake` uses the v2 Datadog Lambda gem.
+
 Creating a Lambda handler that wraps the Datadog tooling is easy:
 
 ```ruby
@@ -338,7 +340,7 @@ require 'aws-sdk-someservice'
 require 'yake/datadog'
 
 # Configure Datadog to use AWS tracing
-Datadog::Lambda.configure_apm { |config| config.use :aws }
+Datadog::Lambda.configure_apm { |c| c.tracing.instrument :aws }
 
 datadog :handler do |event|
   # …
