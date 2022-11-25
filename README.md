@@ -208,6 +208,11 @@ MyObject.new.try(:some_method)
 { a: { b: 'c', d: 'e' }, f: 'g' }.deep_keys
 # => [:a, :b, :d, :f]
 
+left  = { a: 'b', c: { d: %w[e] } }
+right = { a: 'a', c: { d: %w[d] } }
+left.deep_merge(right)
+# => { :a => "a", :c => { :d => ["e", "d"] } }
+
 { a: { b: 'c', d: 'e' }, f: 'g' }.deep_transform_keys(&:to_s)
 # => { "a" => { "b" => "c", "d" => "e" }, "f" => "g" }
 

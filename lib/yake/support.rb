@@ -17,6 +17,20 @@ class Hash
   def to_json_sorted() deep_sort.to_json end
   def to_struct() OpenStruct.new(self) end
 
+  def deep_merge(other, &block)
+    merge(other) do |key, a, b|
+      if a.is_a?(Hash) && b.is_a?(Hash)
+        a.deep_merge(b, &block)
+      elsif a.is_a?(Array) && b.is_a?(Array)
+        a + b
+      elsif block_given?
+        yield key, a, b
+      else
+        b
+      end
+    end
+  end
+
   def deep_transform_keys(&block)
     deep_transform(:transform_keys, &block)
   end

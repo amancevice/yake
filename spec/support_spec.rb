@@ -17,6 +17,22 @@ RSpec.describe Hash do
       end
     end
 
+    context '#deep_merge' do
+      it 'should deeply merge two objects' do
+        left  = { a: 'b', c: { d: %w[e] } }
+        right = { a: 'a', c: { d: %w[d] } }
+        both  = { a: 'a', c: { d: %w[e d] } }
+        expect(left.deep_merge(right)).to eq both
+      end
+
+      it 'should deeply merge two objects with a block' do
+        left  = { a: 'b', c: { d: %w[e] } }
+        right = { a: 'a', c: { d: %w[d] } }
+        both  = { a: 'a', c: { d: %w[e d] } }
+        expect(left.deep_merge(right) { |k,a,b| b }).to eq both
+      end
+    end
+
     context '#deep_sort' do
       it 'should sort the Hash before converting to JSON' do
         expect(subject.deep_sort).to eq(a: { b: 'c', d: 'e' }, f: 'g')
