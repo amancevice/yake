@@ -17,6 +17,9 @@ class Hash
   def to_json_sorted() deep_sort.to_json end
   def to_struct() OpenStruct.new(self) end
 
+  ##
+  # Adapted from ActiveSupport Hash#deep_merge
+  # https://github.com/rails/rails/blob/f95c0b7e96eb36bc3efc0c5beffbb9e84ea664e4/activesupport/lib/active_support/core_ext/hash/deep_merge.rb
   def deep_merge(other, &block)
     merge(other) do |key, a, b|
       if a.is_a?(Hash) && b.is_a?(Hash)
