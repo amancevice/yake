@@ -5,6 +5,8 @@
 [![coverage](https://img.shields.io/codeclimate/coverage/amancevice/yake?logo=code-climate&style=flat-square)](https://codeclimate.com/github/amancevice/yake/test_coverage)
 [![maintainability](https://img.shields.io/codeclimate/maintainability/amancevice/yake?logo=code-climate&style=flat-square)](https://codeclimate.com/github/amancevice/yake/maintainability)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/smallweirdnumber)
+
 Write your AWS Lambda function handlers using a Rake-like declarative syntax:
 
 ```ruby
