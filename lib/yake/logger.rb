@@ -25,4 +25,16 @@ module Yake
       end
     end
   end
+
+  class << self
+    attr_writer :logger, :pretty
+
+    def logger
+      @logger ||= Logger.new
+    end
+
+    def pretty?
+      @pretty == true
+    end
+  end
 end

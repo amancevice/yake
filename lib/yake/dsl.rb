@@ -33,6 +33,19 @@ module Yake
       end
     end
   end
+
+  class << self
+    def wrap(event = nil, context = nil, &block)
+      original_progname = logger.progname
+      logger.progname   = context&.aws_request_id
+      jsonify           = -> (obj) { pretty? ? JSON.pretty_generate(obj) : obj.to_json }
+      log_return        = -> (res) { logger.info("RETURN #{ jsonify === res }") }
+      logger.info("EVENT #{ jsonify === event }")
+      (yield(event, context) if block_given?).tap(&log_return)
+    ensure
+      logger.progname = original_progname
+    end
+  end
 end
 
 extend Yake::DSL
