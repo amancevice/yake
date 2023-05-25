@@ -10,7 +10,7 @@ jobs:
       matrix:
         datadog-lambda:
           - "1.14.0"
-          - "2.16.0"
+          - "2.19.0"
         ruby:
           - "2.7"
           - "3.2"
