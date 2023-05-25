@@ -135,6 +135,46 @@ RSpec.describe Hash do
       expect(subject.to_json_sorted).to eq '{"a":{"b":"c","d":"e"},"f":"g"}'
     end
   end
+
+  context '#to_dynamodb' do
+    subject do
+      {
+        a: 'b',
+        c: 1,
+        d: ['e', 2.3],
+        f: { g: 'h' }
+      }
+    end
+
+    it 'should convert the Hash to DynamoDB format' do
+      expect(subject.to_dynamodb).to eq(
+        a: { S: 'b' },
+        c: { N: '1' },
+        d: { L: [ { S: 'e' }, { N: '2.3' } ] },
+        f: { M: { g: { S: 'h'} } },
+      )
+    end
+  end
+
+  context '#from_dynamodb' do
+    subject do
+      {
+        a: { S: 'b' },
+        c: { N: '1' },
+        d: { L: [ { S: 'e' }, { N: '2.3' } ] },
+        f: { M: { g: { S: 'h'} } },
+      }
+    end
+
+    it 'should convert the Hash to DynamoDB format' do
+      expect(subject.to_h_from_dynamodb).to eq(
+        a: 'b',
+        c: 1,
+        d: ['e', 2.3],
+        f: { g: 'h' },
+      )
+    end
+  end
 end
 
 RSpec.describe Integer do

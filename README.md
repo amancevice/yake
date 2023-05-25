@@ -79,7 +79,7 @@ INFO RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf EVENT { … }
 …
 INFO RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf RETURN { … }
 END RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf
-REPORT RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf	Duration: 43.97 ms	Billed Duration: 44 ms	Memory Size: 128 MB	Max Memory Used: 77 MB
+REPORT RequestId: 149c500f-028a-4b57-8977-0ef568cf8caf  Duration: 43.97 ms  Billed Duration: 44 ms  Memory Size: 128 MB  Max Memory Used: 77 MB
 ```
 
 Logging the request ID in this way makes gathering logs lines for a particular execution in CloudWatch much easier.
@@ -251,6 +251,12 @@ hash.deep_transform_keys!(&:to_s)
 
 { f: 'g', a: { d: 'e', b: 'c' } }.to_deep_struct
 # => #<OpenStruct f="g", a=#<OpenStruct d="e", b="c">>
+
+{ a: { b: 'c', d: 'e' }, f: 'g' }.to_dynamodb
+# => { :a => { :M => { :b => { :S => "c" }, :d => { :S => "e" } } }, :f => { :S => "g" } }
+
+{ a: { M: { b: { S: 'c' }, d: { S: 'e' } } }, f: { S: 'g' } }.to_h_from_dynamodb
+# => { :a => { :b => "c", :d => "e" }, :f => "g" }
 ```
 
 `Integer` helpers:

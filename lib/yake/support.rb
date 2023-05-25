@@ -5,6 +5,10 @@ require 'digest'
 require 'json'
 require 'time'
 
+class Array
+  def to_dynamodb() { L: map(&:to_dynamodb) } end
+end
+
 class Hash
   def deep_keys() map { |k,v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten end
   def deep_sort() sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h end
@@ -60,12 +64,37 @@ class Hash
     end
   end
 
+  def to_dynamodb
+    map do |key, val|
+      { key => val.is_a?(Hash) ? { M: val.to_dynamodb } : val.to_dynamodb }
+    end.reduce(&:merge)
+  end
+
+  def to_h_from_dynamodb
+    decode = -> (i) do
+      type, val = i.first
+      case type.to_sym
+      when :S then val
+      when :N then val =~ /^[0-9]+$/ ? val.to_i : val.to_f
+      when :L then val.map(&decode)
+      when :M then val.transform_values(&decode)
+      end
+    end
+    map do |key, val|
+      { key => decode === val }
+    end.reduce(&:merge)
+  end
+
   private def deep_transform(method, &block)
     f = -> (x) { x.respond_to?(:"deep_#{method}") ? x.send(:"deep_#{method}", &block) : x }
     block_given? ? send(method, &block).map do |key, val|
       [key, val.is_a?(Array) ? val.map(&f) : val.then(&f)]
     end.to_h : self
   end
+end
+
+class Numeric
+  def to_dynamodb() { N: to_s } end
 end
 
 class Integer
@@ -101,6 +130,7 @@ class String
   def snake_case() gsub(/([a-z])([A-Z])/, '\1_\2').downcase end
   def strict_decode64() Base64.strict_decode64(self) end
   def strict_encode64() Base64.strict_encode64(self) end
+  def to_dynamodb() { S: self } end
   def to_h_from_json(**params) JSON.parse(self, **params) end
   def to_h_from_form() URI.decode_www_form(self).to_h end
   def utc() UTC.parse(self) end
@@ -109,6 +139,7 @@ end
 class Symbol
   def camel_case() to_s.camel_case.to_sym end
   def snake_case() to_s.snake_case.to_sym end
+  def to_dynamodb() { S: to_s } end
 end
 
 class UTC < Time
