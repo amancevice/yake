@@ -7,7 +7,12 @@ RSpec.describe Yake::Datadog::DSL do
   before do
     runtime_class.logging :off
     require 'aws-sdk-core'
-    Datadog::Lambda.configure_apm { |c| c.tracing.instrument :aws }
+    case Datadog::Lambda::VERSION::MAJOR
+    when 1
+      Datadog::Lambda.configure_apm { |c| c.use :aws }
+    else
+      Datadog::Lambda.configure_apm { |c| c.tracing.instrument :aws }
+    end
   end
 
   context '#datadog' do
@@ -33,9 +38,13 @@ RSpec.describe Yake::Datadog::Formatter do
       allow_any_instance_of(Time).to receive(:utc).and_return utc
       Yake.logger.info('Hello, world!')
       stream.seek 0
-      expect(stream.read).to eq <<~EOS
-        [INFO] 2009-02-13T23:31:30.000Z - dd.service=rspec dd.trace_id=0 dd.span_id=0 Hello, world!
-      EOS
+      expected =
+      expect(stream.read.chomp).to eq case Datadog::Lambda::VERSION::MAJOR
+      when 1
+        '[INFO] 2009-02-13T23:31:30.000Z - dd.trace_id=0 dd.span_id=0 Hello, world!'
+      else
+        '[INFO] 2009-02-13T23:31:30.000Z - dd.service=rspec dd.trace_id=0 dd.span_id=0 ddsource=ruby Hello, world!'
+      end
     end
   end
 end

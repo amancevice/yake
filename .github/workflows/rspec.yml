@@ -4,29 +4,32 @@ on:
   push:
 jobs:
   RSpec:
-    name: "Ruby ${{ matrix.ruby }}"
+    name: >-
+      Ruby ${{ matrix.ruby }}, ${{ matrix.gems }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        datadog-lambda:
-          - "1.14.0"
-          - "2.19.0"
         ruby:
           - "2.7"
           - "3.2"
+        gems:
+          - >-
+            datadog_lambda=1.14
+            ddtrace=0.48
+          - >-
+            datadog_lambda=2.20
+            ddtrace=1.14
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
-        env:
-          DD_PROFILING_NO_EXTENSION: true
         with:
-          bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
       - uses: amancevice/setup-code-climate@v1
         with:
           cc_test_reporter_id: ${{ secrets.CC_TEST_REPORTER_ID }}
       - run: cc-test-reporter before-build
-      - run: gem install datadog-lambda:${{ matrix.datadog-lambda }}
+      - run: erb ${{ matrix.gems }} .github/workflows/Gemfile.erb > Gemfile
+      - run: bundle install
       - run: bundle exec rake
       - run: cc-test-reporter after-build
         if: ${{ github.event_name != 'pull_request' }}

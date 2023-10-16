@@ -10,7 +10,12 @@ require 'yake/datadog'
 require 'yake/support'
 
 ENV['DD_ENHANCED_METRICS'] = '0'
-Datadog.configure { |config| config.tracing.enabled = false }
+case Datadog::Lambda::VERSION::MAJOR
+when 1
+  Datadog.configure { |c| c.tracer.enabled = false }
+else
+  Datadog.configure { |c| c.tracing.enabled = false }
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
