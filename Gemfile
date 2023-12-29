@@ -12,5 +12,5 @@ gem 'simplecov', '~> 0.21'
 group :datadog do
   gem 'ddtrace'
   gem 'datadog-lambda'
-  gem 'nokogiri'
+  gem 'rexml'
 end
