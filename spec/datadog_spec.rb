@@ -38,7 +38,6 @@ RSpec.describe Yake::Datadog::Formatter do
       allow_any_instance_of(Time).to receive(:utc).and_return utc
       Yake.logger.info('Hello, world!')
       stream.seek 0
-      expected =
       expect(stream.read.chomp).to eq case Datadog::Lambda::VERSION::MAJOR
       when 1
         '[INFO] 2009-02-13T23:31:30.000Z - dd.trace_id=0 dd.span_id=0 Hello, world!'
