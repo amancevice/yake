@@ -15,9 +15,6 @@ jobs:
           - "3.3"
         gems:
           - >-
-            datadog_lambda='~> 1.14'
-            ddtrace='~> 0.54'
-          - >-
             datadog_lambda='~> 2.22'
             ddtrace='~> 1.18'
     steps:
