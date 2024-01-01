@@ -342,7 +342,7 @@ UTC.now
 
 ## Datadog Integration
 
-As of `~> 0.4`, `yake` comes with a helper for writing Lambdas that integrate with Datadog's `datadog-ruby` gem.
+As of `v1.0`, `yake` comes with a helper for writing Lambdas that integrate with Datadog's `datadog-lambda` gem.
 
 As of `~> 0.8`, `yake` uses the v2 Datadog Lambda gem.
 
@@ -374,7 +374,7 @@ After checking out the repo, run `bundle` to install dependencies. Then, run `ra
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/amancevice/yake.
+Bug reports and pull requests are welcome on GitHub at [amancevice/yake](https://github.com/amancevice/yake).
 
 ## License
 
