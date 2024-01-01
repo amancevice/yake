@@ -4,8 +4,7 @@ on:
   push:
 jobs:
   RSpec:
-    name: >-
-      Ruby ${{ matrix.ruby }}, ${{ matrix.gems }}
+    name: Ruby ${{ matrix.ruby }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
