@@ -5,13 +5,14 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem 'pry',       '~> 0.14'
-  gem 'rake',      '~> 13.1'
-  gem 'rspec',     '~> 3.12', require: 'rspec/core/rake_task'
-  gem 'simplecov', '~> 0.22'
+  gem 'pry'
+  gem 'rake'
+  gem 'rspec'
+  gem 'simplecov'
 end
 
 group :datadog do
+  gem 'aws-sdk-core'
   gem 'ddtrace'
   gem 'datadog-lambda'
   gem 'rexml'
