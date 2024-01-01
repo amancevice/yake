@@ -13,10 +13,6 @@ jobs:
           - "2.7"
           - "3.2"
           - "3.3"
-        gems:
-          - >-
-            datadog_lambda='~> 2.22'
-            ddtrace='~> 1.18'
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -26,7 +22,6 @@ jobs:
         with:
           cc_test_reporter_id: ${{ secrets.CC_TEST_REPORTER_ID }}
       - run: cc-test-reporter before-build
-      - run: erb ${{ matrix.gems }} .github/workflows/Gemfile.erb > Gemfile
       - run: bundle install
       - run: bundle exec rake
       - run: cc-test-reporter after-build
