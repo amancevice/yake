@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'base64'
 require 'digest'
 require 'json'
 require 'time'
@@ -123,13 +122,13 @@ end
 class String
   def /(path) File.join(self, path.to_s) end
   def camel_case() split(/_/).map(&:capitalize).join end
-  def decode64() Base64.decode64(self) end
-  def encode64() Base64.encode64(self) end
+  def decode64() self.unpack1('m') end
+  def encode64() [self].pack('m') end
   def md5sum() Digest::MD5.hexdigest(self) end
   def sha1sum() Digest::SHA1.hexdigest(self) end
   def snake_case() gsub(/([a-z])([A-Z])/, '\1_\2').downcase end
-  def strict_decode64() Base64.strict_decode64(self) end
-  def strict_encode64() Base64.strict_encode64(self) end
+  def strict_decode64() self.unpack1('m0') end
+  def strict_encode64() [self].pack('m0') end
   def to_dynamodb() { S: self } end
   def to_h_from_json(**params) JSON.parse(self, **params) end
   def to_h_from_form() URI.decode_www_form(self).to_h end

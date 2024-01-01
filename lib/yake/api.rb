@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'base64'
 require 'json'
 
 require 'yake'
@@ -21,7 +20,7 @@ module Yake
 
         # Decode body if Base64-encoded
         if event['isBase64Encoded']
-          body = Base64.strict_decode64(event['body'])
+          body = event['body'].unpack1('m0')
           event.update('body' => body, 'isBase64Encoded' => false)
         end
 
