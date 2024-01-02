@@ -5,22 +5,24 @@ require 'json'
 require 'time'
 
 class Array
-  def to_dynamodb() { L: map(&:to_dynamodb) } end
+  def to_dynamodb = { L: map(&:to_dynamodb) }
 end
 
 class Hash
-  def deep_keys() map { |k,v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten end
-  def deep_sort() sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h end
-  def encode64() to_json.encode64 end
-  def except(*keys) reject { |key,_| keys.include? key } end
-  def strict_encode64() to_json.strict_encode64 end
-  def stringify_names() deep_transform_keys(&:to_s) end
-  def stringify_names!() deep_transform_keys!(&:to_s) end
-  def symbolize_names() deep_transform_keys(&:to_sym) end
-  def symbolize_names!() deep_transform_keys!(&:to_sym) end
-  def to_form() URI.encode_www_form(self) end
-  def to_json_sorted() deep_sort.to_json end
-  def to_struct() OpenStruct.new(self) end
+  def deep_keys                     = map { |k,v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten
+  def deep_sort                     = sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h
+  def deep_transform_keys(&block)   = deep_transform(:transform_keys, &block)
+  def deep_transform_keys!(&block)  = deep_transform(:transform_keys!, &block)
+  def encode64                      = to_json.encode64
+  def except(*keys)                 = reject { |key,_| keys.include? key }
+  def strict_encode64               = to_json.strict_encode64
+  def stringify_names               = deep_transform_keys(&:to_s)
+  def stringify_names!              = deep_transform_keys!(&:to_s)
+  def symbolize_names               = deep_transform_keys(&:to_sym)
+  def symbolize_names!              = deep_transform_keys!(&:to_sym)
+  def to_form                       = URI.encode_www_form(self)
+  def to_json_sorted                = deep_sort.to_json
+  def to_struct                     = OpenStruct.new(self)
 
   ##
   # Adapted from ActiveSupport Hash#deep_merge
@@ -37,14 +39,6 @@ class Hash
         b
       end
     end
-  end
-
-  def deep_transform_keys(&block)
-    deep_transform(:transform_keys, &block)
-  end
-
-  def deep_transform_keys!(&block)
-    deep_transform(:transform_keys!, &block)
   end
 
   def to_deep_struct
@@ -84,7 +78,9 @@ class Hash
     end.reduce(&:merge)
   end
 
-  private def deep_transform(method, &block)
+  private
+
+  def deep_transform(method, &block)
     f = -> (x) { x.respond_to?(:"deep_#{method}") ? x.send(:"deep_#{method}", &block) : x }
     block_given? ? send(method, &block).map do |key, val|
       [key, val.is_a?(Array) ? val.map(&f) : val.then(&f)]
@@ -93,16 +89,16 @@ class Hash
 end
 
 class Numeric
-  def to_dynamodb() { N: to_s } end
+  def to_dynamodb = { N: to_s }
 end
 
 class Integer
-  def weeks() days * 7 end
-  def days() hours * 24 end
-  def hours() minutes * 60 end
-  def minutes() seconds * 60 end
-  def seconds() self end
-  def utc() UTC.at(self) end
+  def weeks   = days * 7
+  def days    = hours * 24
+  def hours   = minutes * 60
+  def minutes = seconds * 60
+  def seconds = self
+  def utc     = UTC.at(self)
 
   alias :second :seconds
   alias :minute :minutes
@@ -120,29 +116,29 @@ class Object
 end
 
 class String
-  def /(path) File.join(self, path.to_s) end
-  def camel_case() split(/_/).map(&:capitalize).join end
-  def decode64() self.unpack1('m') end
-  def encode64() [self].pack('m') end
-  def md5sum() Digest::MD5.hexdigest(self) end
-  def sha1sum() Digest::SHA1.hexdigest(self) end
-  def snake_case() gsub(/([a-z])([A-Z])/, '\1_\2').downcase end
-  def strict_decode64() self.unpack1('m0') end
-  def strict_encode64() [self].pack('m0') end
-  def to_dynamodb() { S: self } end
-  def to_h_from_json(**params) JSON.parse(self, **params) end
-  def to_h_from_form() URI.decode_www_form(self).to_h end
-  def utc() UTC.parse(self) end
+  def /(path)             = File.join(self, path.to_s)
+  def camel_case          = split(/_/).map(&:capitalize).join
+  def decode64            = self.unpack1('m')
+  def encode64            = [self].pack('m')
+  def md5sum              = Digest::MD5.hexdigest(self)
+  def sha1sum             = Digest::SHA1.hexdigest(self)
+  def snake_case          = gsub(/([a-z])([A-Z])/, '\1_\2').downcase
+  def strict_decode64     = self.unpack1('m0')
+  def strict_encode64     = [self].pack('m0')
+  def to_dynamodb         = { S: self }
+  def to_h_from_json(...) = JSON.parse(self, ...)
+  def to_h_from_form      = URI.decode_www_form(self).to_h
+  def utc                 = UTC.parse(self)
 end
 
 class Symbol
-  def camel_case() to_s.camel_case.to_sym end
-  def snake_case() to_s.snake_case.to_sym end
-  def to_dynamodb() { S: to_s } end
+  def camel_case  = to_s.camel_case.to_sym
+  def snake_case  = to_s.snake_case.to_sym
+  def to_dynamodb = { S: to_s }
 end
 
 class UTC < Time
-  def initialize(...) super.utc end
-  def self.at(...) super.utc end
-  def self.now() super.utc end
+  def initialize(...) = super.utc
+  def self.at(...)    = super.utc
+  def self.now        = super.utc
 end
