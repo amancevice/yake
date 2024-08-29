@@ -21,7 +21,11 @@ module Yake
       Format = "%s %s %s\n"
 
       def call(severity, time, progname, msg)
-        Format % [ severity, progname.nil? ? '-' : "RequestId: #{ progname }", msg2str(msg).strip ]
+        Format % [
+          severity,
+          progname.nil? ? '-' : "RequestId: #{ progname }",
+          msg2str(msg).strip
+        ]
       end
     end
   end
@@ -29,12 +33,7 @@ module Yake
   class << self
     attr_writer :logger, :pretty
 
-    def logger
-      @logger ||= Logger.new
-    end
-
-    def pretty?
-      @pretty == true
-    end
+    def logger  = @logger ||= Logger.new
+    def pretty? = @pretty == true
   end
 end
