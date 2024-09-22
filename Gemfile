@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
+  gem 'base64'
   gem 'pry'
   gem 'rake'
   gem 'rspec'
