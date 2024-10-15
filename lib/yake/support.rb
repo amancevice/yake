@@ -117,12 +117,12 @@ end
 
 class String
   def /(path)             = File.join(self, path.to_s)
-  def camel_case          = split(/_/).map(&:capitalize).join
+  def camel_case          = split(/[_ ]/).map(&:capitalize).join
   def decode64            = self.unpack1('m')
   def encode64            = [self].pack('m')
   def md5sum              = Digest::MD5.hexdigest(self)
   def sha1sum             = Digest::SHA1.hexdigest(self)
-  def snake_case          = gsub(/([a-z])([A-Z])/, '\1_\2').downcase
+  def snake_case          = gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/ /, '_').downcase
   def strict_decode64     = self.unpack1('m0')
   def strict_encode64     = [self].pack('m0')
   def to_dynamodb         = { S: self }
