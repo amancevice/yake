@@ -246,6 +246,10 @@ RSpec.describe String do
     it 'should convert a snake_case String to CamelCase' do
       expect('snake_case_string'.camel_case).to eq 'SnakeCaseString'
     end
+
+    it 'should convert a snake_case String (with spaces) to CamelCase (without spaces)' do
+      expect('snake case string'.camel_case).to eq 'SnakeCaseString'
+    end
   end
 
   context '#decode64' do
@@ -276,6 +280,10 @@ RSpec.describe String do
   context '#snake_case' do
     it 'should convert the String from CamelCase to snake_case' do
       expect('SnakeCaseString'.snake_case).to eq 'snake_case_string'
+    end
+
+    it 'should convert the String from CamelCase (with spaces) to snake_case (without spaces)' do
+      expect('Snake Case String'.snake_case).to eq 'snake_case_string'
     end
   end
 
