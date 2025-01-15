@@ -17,7 +17,8 @@ end
 
 group :datadog do
   gem 'aws-sdk-core'
-  gem 'ddtrace'
+  gem 'datadog'
   gem 'datadog-lambda'
+  gem 'ostruct'
   gem 'rexml'
 end
