@@ -5,17 +5,14 @@ ENV['TZ'] = 'UTC'
 require 'simplecov'
 SimpleCov.start
 
+require 'base64'
+
 require 'yake/api'
 require 'yake/datadog'
 require 'yake/support'
 
-ENV['DD_ENHANCED_METRICS'] = '0'
-case Datadog::Lambda::VERSION::MAJOR
-when 1
-  Datadog.configure { |c| c.tracer.enabled = false }
-else
-  Datadog.configure { |c| c.tracing.enabled = false }
-end
+ENV['DD_LOG_LEVEL'] = 'WARN'
+Datadog.configure { |c| c.tracing.enabled = true }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
