@@ -1,8 +1,9 @@
 RSpec.describe Yake::Datadog::DSL do
   let(:event)         { { fizz: 'buzz' } }
-  let(:context)       { OpenStruct.new aws_request_id: '<requestId>', invoked_function_arn: '' }
   let(:runtime_class) { Class.new { extend Yake::Datadog::DSL } }
   let(:runtime)       { runtime_class.new }
+  let(:context_class) { Struct.new(:aws_request_id, :function_name, :invoked_function_arn, :memory_limit_in_mb) }
+  let(:context)       { context_class.new('<requestId>', '<functionName>', '<invokedFunctionArn>', 128) }
 
   before do
     runtime_class.logging :off
@@ -22,7 +23,7 @@ end
 
 RSpec.describe Yake::Datadog::Formatter do
   context '#call' do
-    let(:context)   { OpenStruct.new(aws_request_id: '<awsRequestId>') }
+    let(:context)   { Struct.new(:aws_request_id).new('<awsRequestId>') }
     let(:formatter) { Yake::Datadog::Formatter.new }
     let(:stream)    { StringIO.new }
     let(:utc)       { Time.at(1234567890).utc }

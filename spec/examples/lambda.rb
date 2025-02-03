@@ -11,4 +11,4 @@ end
 # --- Example invocation(s)
 
 handler event: { 'key' => 'value' },
-        context: OpenStruct.new(aws_request_id: SecureRandom.uuid)
+        context: Struct.new(:aws_request_id).new(SecureRandom.uuid)

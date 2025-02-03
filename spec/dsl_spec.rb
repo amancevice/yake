@@ -1,6 +1,6 @@
 RSpec.describe Yake::DSL do
   let(:event)         { { fizz: 'buzz' } }
-  let(:context)       { OpenStruct.new aws_request_id: '<requestId>' }
+  let(:context)       { Struct.new(:aws_request_id).new('<requestId>') }
   let(:runtime_class) { Class.new { extend Yake::DSL } }
   let(:runtime)       { runtime_class.new }
 

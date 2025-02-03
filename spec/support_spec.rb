@@ -117,7 +117,7 @@ RSpec.describe Hash do
   end
 
   context '#to_deep_struct' do
-    it 'should convert the Hash to a nested OpenStruct' do
+    it 'should convert the Hash to a nested struct' do
       expect(subject.to_deep_struct.razz.first.mtaz).to eq 'hazz'
     end
   end

@@ -247,10 +247,10 @@ hash.deep_transform_keys!(&:to_s)
 # => '{"a":{"b":"c","d":"e"},"f":"g"}'
 
 { f: 'g', a: { d: 'e', b: 'c' } }.to_struct
-# => #<OpenStruct f="g", a={:d=>"e", :b=>"c"}>
+# => #<struct f="g", a={:d=>"e", :b=>"c"}>
 
 { f: 'g', a: { d: 'e', b: 'c' } }.to_deep_struct
-# => #<OpenStruct f="g", a=#<OpenStruct d="e", b="c">>
+# => #<struct f="g", a=#<struct d="e", b="c">>
 
 { a: { b: 'c', d: 'e' }, f: 'g' }.to_dynamodb
 # => { :a => { :M => { :b => { :S => "c" }, :d => { :S => "e" } } }, :f => { :S => "g" } }

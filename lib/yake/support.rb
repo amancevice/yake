@@ -22,7 +22,7 @@ class Hash
   def symbolize_names!              = deep_transform_keys!(&:to_sym)
   def to_form                       = URI.encode_www_form(self)
   def to_json_sorted                = deep_sort.to_json
-  def to_struct                     = OpenStruct.new(self)
+  def to_struct                     = Struct.new(*keys.map(&:to_sym)).new(*values)
 
   ##
   # Adapted from ActiveSupport Hash#deep_merge

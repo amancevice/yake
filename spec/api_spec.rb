@@ -5,7 +5,7 @@ RSpec.describe Yake::API::DSL do
   before { runtime_class.logging :off }
 
   context '#route' do
-    let(:context) { OpenStruct.new(aws_request_id: '<awsRequestId>') }
+    let(:context) { Struct.new(:aws_request_id).new('<awsRequestId>') }
     let(:event) do
       {
         'body'            => Base64.strict_encode64({fizz: 'buzz'}.to_json),

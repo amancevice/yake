@@ -36,7 +36,7 @@ end
 # --- Example invocation(s)
 
 require 'securerandom'
-context = -> { OpenStruct.new aws_request_id: SecureRandom.uuid }
+context = -> { Struct.new(:aws_request_id).new(SecureRandom.uuid) }
 proxy event: { 'routeKey' => 'POST /fizz', 'body' => 'FIZZ 1' }, context: context.call
 proxy event: { 'routeKey' => 'POST /fizz', 'body' => 'FIZZ 2' }, context: context.call
 proxy event: { 'routeKey' => 'POST /buzz', 'body' => 'BUZZ 1' }, context: context.call

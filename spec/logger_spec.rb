@@ -22,7 +22,7 @@ end
 
 RSpec.describe Yake do
   context '::wrap' do
-    let(:context) { OpenStruct.new(aws_request_id: '<awsRequestId>') }
+    let(:context) { Struct.new(:aws_request_id).new('<awsRequestId>') }
     let(:stream)  { StringIO.new }
 
     before { Yake.logger = Yake::Logger.new(stream, progname: '-') }
