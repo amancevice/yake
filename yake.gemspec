@@ -15,6 +15,6 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['README*', 'LICENSE*', 'lib/**/*']
 
   spec.required_ruby_version = '>= 3.2.0'
-  spec.add_dependency 'json'
+  spec.add_dependency 'ostruct'
   spec.add_dependency 'logger'
 end
