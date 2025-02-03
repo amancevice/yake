@@ -3,6 +3,7 @@
 require 'digest'
 require 'json'
 require 'time'
+require 'uri'
 
 class Array
   def to_dynamodb = { L: map(&:to_dynamodb) }
