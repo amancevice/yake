@@ -1,3 +1,5 @@
+require 'yake/datadog'
+
 RSpec.describe Yake::Datadog::DSL do
   let(:event)         { { fizz: 'buzz' } }
   let(:runtime_class) { Class.new { extend Yake::Datadog::DSL } }
@@ -6,7 +8,6 @@ RSpec.describe Yake::Datadog::DSL do
   let(:context)       { context_class.new('<requestId>', '<functionName>', '<invokedFunctionArn>', 128) }
 
   before do
-    runtime_class.logging :off
     require 'aws-sdk-core'
     Datadog::Lambda.configure_apm { |c| c.tracing.instrument :aws }
   end

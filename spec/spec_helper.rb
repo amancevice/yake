@@ -8,11 +8,7 @@ SimpleCov.start
 require 'base64'
 
 require 'yake/api'
-require 'yake/datadog'
 require 'yake/support'
-
-ENV['DD_LOG_LEVEL'] = 'WARN'
-Datadog.configure { |c| c.tracing.enabled = true }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
