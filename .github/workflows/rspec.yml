@@ -21,6 +21,6 @@ jobs:
           cc_test_reporter_id: ${{ secrets.CC_TEST_REPORTER_ID }}
       - run: cc-test-reporter before-build
       - run: bundle install
-      - run: bundle exec rake
+      - run: bundle exec rspec --format documentation
       - run: cc-test-reporter after-build
         if: ${{ github.event_name != 'pull_request' }}
