@@ -191,6 +191,18 @@ Enable the helpers by requiring the `support` submodule:
 require 'yake/support'
 ```
 
+`Array` helpers:
+
+```ruby
+array = [{ a: 'b'}, { a: 'c' }, { a: 'd' }]
+
+array.pluck(:a)
+# => ["b", "c", "d"]
+
+array.to_dynamodb
+# => {:L=>[{:a=>{:S=>"b"}}, {:a=>{:S=>"c"}}, {:a=>{:S=>"d"}}]}
+```
+
 `Object` helpers:
 
 ```ruby

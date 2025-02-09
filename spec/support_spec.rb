@@ -75,6 +75,12 @@ RSpec.describe Hash do
     end
   end
 
+  context '#pluck' do
+    it 'should return a list of the plucked values' do
+      expect(([subject] * 3).pluck('fizz')).to eq(%w[buzz] * 3)
+    end
+  end
+
   context '#strict_encode64' do
     it 'should transform a Hash to a strict Base64-encoded string' do
       expect(subject.strict_encode64).to eq 'eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6ImhhenoifV0sIndpenoiOnsia2l6eiI6ImthenoifX0='
