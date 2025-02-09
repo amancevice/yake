@@ -5,18 +5,22 @@ require 'json'
 require 'time'
 require 'uri'
 
+##
+# Array helpers
 class Array
   def pluck(key)  = map { |x| x[key] }
   def to_dynamodb = { L: map(&:to_dynamodb) }
 end
 
+##
+# Hash helpers
 class Hash
-  def deep_keys                     = map { |k,v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten
-  def deep_sort                     = sort.map { |k,v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h
+  def deep_keys                     = map { |k, v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten
+  def deep_sort                     = sort.map { |k, v| [ k, v.try(:deep_sort) { |x| x } ] }.to_h
   def deep_transform_keys(&block)   = deep_transform(:transform_keys, &block)
   def deep_transform_keys!(&block)  = deep_transform(:transform_keys!, &block)
   def encode64                      = to_json.encode64
-  def except(*keys)                 = reject { |key,_| keys.include? key }
+  def except(*keys)                 = reject { |key, _| keys.include? key }
   def strict_encode64               = to_json.strict_encode64
   def stringify_names               = deep_transform_keys(&:to_s)
   def stringify_names!              = deep_transform_keys!(&:to_s)
@@ -66,7 +70,7 @@ class Hash
   end
 
   def to_h_from_dynamodb
-    decode = -> (i) do
+    decode = ->(i) do
       type, val = i.first
       case type.to_sym
       when :S then val
@@ -83,17 +87,21 @@ class Hash
   private
 
   def deep_transform(method, &block)
-    f = -> (x) { x.respond_to?(:"deep_#{method}") ? x.send(:"deep_#{method}", &block) : x }
+    f = ->(x) { x.respond_to?(:"deep_#{method}") ? x.send(:"deep_#{method}", &block) : x }
     block_given? ? send(method, &block).map do |key, val|
       [key, val.is_a?(Array) ? val.map(&f) : val.then(&f)]
     end.to_h : self
   end
 end
 
+##
+# Numeric helpers
 class Numeric
   def to_dynamodb = { N: to_s }
 end
 
+##
+# Integer helpers
 class Integer
   def weeks   = days * 7
   def days    = hours * 24
@@ -109,6 +117,8 @@ class Integer
   alias :week :weeks
 end
 
+##
+# Object helpers
 class Object
   def try(method, *args, **kwargs, &block)
     send(method, *args, **kwargs)
@@ -117,6 +127,8 @@ class Object
   end
 end
 
+##
+# String helpers
 class String
   def /(path)             = File.join(self, path.to_s)
   def camel_case          = split(/[_ ]/).map(&:capitalize).join
@@ -133,12 +145,16 @@ class String
   def utc                 = UTC.parse(self)
 end
 
+##
+# Symbol helpers
 class Symbol
   def camel_case  = to_s.camel_case.to_sym
   def snake_case  = to_s.snake_case.to_sym
   def to_dynamodb = { S: to_s }
 end
 
+##
+# UTC time
 class UTC < Time
   def initialize(...) = super.utc
   def self.at(...)    = super.utc

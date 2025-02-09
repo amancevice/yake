@@ -9,11 +9,11 @@ RSpec::Core::RakeTask.new :spec
 namespace :gem do
   require 'bundler/gem_tasks'
 
-  @gem = "pkg/yake-#{ Yake::VERSION }.gem"
+  @gem = "pkg/yake-#{Yake::VERSION}.gem"
 
-  desc "Push #{ @gem } to rubygems.org"
+  desc "Push #{@gem} to rubygems.org"
   task :push => %i[spec build git:check] do
-    sh %{gem push #{ @gem }}
+    sh %{gem push #{@gem}}
   end
 end
 

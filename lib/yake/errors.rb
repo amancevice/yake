@@ -6,13 +6,13 @@ module Yake
 
     class UndeclaredRoute < Error
       def initialize(method = nil)
-        super("No route declared for '#{ method }'")
+        super("No route declared for '#{method}'")
       end
     end
 
     class UnknownLoggingSetting < Error
       def initialize(method = nil)
-        super("Unknown logging setting '#{ method }'. Use :on or :off")
+        super("Unknown logging setting '#{method}'. Use :on or :off")
       end
     end
 

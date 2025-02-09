@@ -62,9 +62,9 @@ RSpec.describe Yake::API::DSL do
 
   context '#verbs' do
     %i[any delete get head options patch post put].each do |verb|
-      it "should define a method for #{ verb.upcase }" do
+      it "should define a method for #{verb.upcase}" do
         runtime_class.send(verb, '/path/to/resource')
-        expect(runtime_class.respond_to? :"#{ verb.upcase } /path/to/resource").to be true
+        expect(runtime_class.respond_to? :"#{verb.upcase} /path/to/resource").to be true
       end
     end
   end

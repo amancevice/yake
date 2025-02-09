@@ -23,7 +23,7 @@ module Yake
       def call(severity, time, progname, msg)
         Format % [
           severity,
-          progname.nil? ? '-' : "RequestId: #{ progname }",
+          progname.nil? ? '-' : "RequestId: #{progname}",
           msg2str(msg).strip
         ]
       end
