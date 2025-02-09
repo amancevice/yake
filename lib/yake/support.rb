@@ -110,11 +110,11 @@ class Integer
   def seconds = self
   def utc     = UTC.at(self)
 
-  alias :second :seconds
-  alias :minute :minutes
-  alias :hour :hours
-  alias :day :days
-  alias :week :weeks
+  alias second seconds
+  alias minute minutes
+  alias hour hours
+  alias day days
+  alias week weeks
 end
 
 ##
@@ -132,12 +132,12 @@ end
 class String
   def /(path)             = File.join(self, path.to_s)
   def camel_case          = split(/[_ ]/).map(&:capitalize).join
-  def decode64            = self.unpack1('m')
+  def decode64            = unpack1('m')
   def encode64            = [self].pack('m')
   def md5sum              = Digest::MD5.hexdigest(self)
   def sha1sum             = Digest::SHA1.hexdigest(self)
   def snake_case          = gsub(/([a-z])([A-Z])/, '\1_\2').gsub(/ /, '_').downcase
-  def strict_decode64     = self.unpack1('m0')
+  def strict_decode64     = unpack1('m0')
   def strict_encode64     = [self].pack('m0')
   def to_dynamodb         = { S: self }
   def to_h_from_json(...) = JSON.parse(self, ...)
