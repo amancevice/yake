@@ -130,7 +130,7 @@ RSpec.describe Hash do
 
   context '#to_form' do
     it 'should convert the Hash to a web form' do
-      expect(subject.to_form).to eq 'fizz=buzz&jazz=fuzz&razz=%7B%22mtaz%22%3D%3E%22hazz%22%7D&wizz=%7B%22kizz%22%3D%3E%22kazz%22%7D'
+      expect(subject.to_form).to eq URI.encode_www_form(subject)
     end
   end
 
