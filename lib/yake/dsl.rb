@@ -2,6 +2,7 @@
 
 require 'json'
 
+require_relative 'errors'
 require_relative 'logger'
 
 ##
