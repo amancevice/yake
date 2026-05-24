@@ -12,6 +12,7 @@ group :test do
   gem 'base64'
   gem 'rake'
   gem 'rspec'
+  gem 'rubocop'
   gem 'simplecov'
 end
 
