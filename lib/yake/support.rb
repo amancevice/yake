@@ -121,8 +121,8 @@ end
 # Object helpers
 class Object
   def try(method, *args, **kwargs, &block)
-    send(method, *args, **kwargs)
-  rescue
+    public_send(method, *args, **kwargs)
+  rescue NoMethodError
     block_given? ? yield(self) : nil
   end
 end
