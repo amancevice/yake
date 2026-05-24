@@ -4,11 +4,10 @@
 # Hash helpers
 class Hash
   def deep_keys               = map { |k, v| v.respond_to?(:deep_keys) ? [k] + v.deep_keys : k }.flatten
-  def deep_sort               = sort.map { |k, v| [k, v.try(:deep_sort) { |x| x }] }.to_h
+  def deep_sort               = sort.to_h { |k, v| [k, v.try(:deep_sort) { |x| x }] }
   def deep_transform_keys(&)  = deep_transform(:transform_keys, &)
   def deep_transform_keys!(&) = deep_transform(:transform_keys!, &)
   def encode64                = to_json.encode64
-  def except(*keys)           = reject { |key, _| keys.include? key }
   def strict_encode64         = to_json.strict_encode64
   def stringify_names         = deep_transform_keys(&:to_s)
   def stringify_names!        = deep_transform_keys!(&:to_s)
@@ -21,7 +20,7 @@ class Hash
   ##
   # Adapted from ActiveSupport Hash#deep_merge
   # https://github.com/rails/rails/blob/f95c0b7e96eb36bc3efc0c5beffbb9e84ea664e4/activesupport/lib/active_support/core_ext/hash/deep_merge.rb
-  def deep_merge(other, &block)
+  def deep_merge(other, &block) # rubocop: disable Metrics/MethodLength
     merge(other) do |key, a, b|
       if a.is_a?(Hash) && b.is_a?(Hash)
         a.deep_merge(b, &block)
@@ -35,7 +34,7 @@ class Hash
     end
   end
 
-  def to_deep_struct
+  def to_deep_struct # rubocop: disable Metrics/MethodLength
     to_struct.tap do |struct|
       struct.to_h.each do |key, val|
         struct[key] =
@@ -56,7 +55,7 @@ class Hash
     end.reduce(&:merge)
   end
 
-  def to_h_from_dynamodb
+  def to_h_from_dynamodb # rubocop: disable Metrics/CyclomaticComplexity, Metrics/MethodLength
     decode = lambda do |i|
       type, val = i.first
       case type.to_sym

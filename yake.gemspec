@@ -14,6 +14,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.files         = Dir['README*', 'LICENSE*', 'lib/**/*']
 
+  spec.metadata = {
+    'rubygems_mfa_required' => 'true'
+  }
+
   spec.required_ruby_version = '>= 3.2.0'
   spec.add_dependency 'logger'
 end

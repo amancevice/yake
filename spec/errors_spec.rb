@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Yake::Errors do
   context '::[]' do
     it 'should return NotFound' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # --- Define Lambda handler(s)
 
 require 'yake/api'
@@ -7,11 +9,11 @@ require 'yake/api'
 
 header 'content-type' => 'application/json; charset=utf-8'
 
-get '/fizz' do |event|
+get '/fizz' do
   respond 200, { fizzes: @fizzes }.to_json
 end
 
-get '/buzz' do |event|
+get '/buzz' do
   respond 200, { fizzes: @buzzes }.to_json
 end
 
@@ -27,10 +29,10 @@ end
 
 handler :proxy do |event|
   route event
-rescue Yake::Errors::UndeclaredRoute => err
-  respond 404, { message: err.message }.to_json
-rescue => err
-  respond 500, { message: err.message }.to_json
+rescue Yake::Errors::UndeclaredRoute => e
+  respond 404, { message: e.message }.to_json
+rescue StandardError => e
+  respond 500, { message: e.message }.to_json
 end
 
 # --- Example invocation(s)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Yake::Logger do
   context '::new' do
     let(:stream) { StringIO.new }
@@ -28,24 +30,24 @@ RSpec.describe Yake do
     before { Yake.logger = Yake::Logger.new(stream, progname: '-') }
 
     it 'should log the event and the result without context' do
-      ret = subject.wrap({fizz: 'buzz'}) { |x| x.transform_keys(&:upcase) }
+      ret = subject.wrap({ fizz: 'buzz' }) { |x| x.transform_keys(&:upcase) }
       expect(ret).to eq FIZZ: 'buzz'
       stream.seek 0
-      expect(stream.read).to eq <<~EOS
+      expect(stream.read).to eq <<~LOG
         INFO - EVENT {"fizz":"buzz"}
         INFO - RETURN {"FIZZ":"buzz"}
-      EOS
+      LOG
       expect(subject.logger.progname).to eq '-'
     end
 
     it 'should log the event and the result with context' do
-      ret = subject.wrap({fizz: 'buzz'}, context) { |x| x.transform_keys(&:upcase) }
+      ret = subject.wrap({ fizz: 'buzz' }, context) { |x| x.transform_keys(&:upcase) }
       expect(ret).to eq FIZZ: 'buzz'
       stream.seek 0
-      expect(stream.read).to eq <<~EOS
+      expect(stream.read).to eq <<~LOG
         INFO RequestId: <awsRequestId> EVENT {"fizz":"buzz"}
         INFO RequestId: <awsRequestId> RETURN {"FIZZ":"buzz"}
-      EOS
+      LOG
       expect(subject.logger.progname).to eq '-'
     end
   end

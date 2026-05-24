@@ -67,13 +67,7 @@ RSpec.describe Hash do
 
   context '#encode64' do
     it 'should transform a Hash to a Base64-encoded string' do
-      expect(subject.encode64).to eq "eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6\nImhhenoifV0sIndpenoiOnsia2l6eiI6ImthenoifX0=\n"
-    end
-  end
-
-  context '#except' do
-    it 'should return a new Hash without the provided keys' do
-      expect(subject.except('fizz', 'razz')).to eq('jazz' => 'fuzz', 'wizz' => { 'kizz' => 'kazz' })
+      expect(subject.encode64).to eq Base64.encode64(subject.to_json)
     end
   end
 
@@ -85,7 +79,7 @@ RSpec.describe Hash do
 
   context '#strict_encode64' do
     it 'should transform a Hash to a strict Base64-encoded string' do
-      expect(subject.strict_encode64).to eq 'eyJmaXp6IjoiYnV6eiIsImphenoiOiJmdXp6IiwicmF6eiI6W3sibXRheiI6ImhhenoifV0sIndpenoiOnsia2l6eiI6ImthenoifX0='
+      expect(subject.strict_encode64).to eq Base64.strict_encode64(subject.to_json)
     end
   end
 

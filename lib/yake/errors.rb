@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
 module Yake
+  ##
+  # Custom Errors
   module Errors
     class Error < StandardError; end
 
+    ##
+    # Event uses undeclared route
     class UndeclaredRoute < Error
       def initialize(method = nil)
         super("No route declared for '#{method}'")
       end
     end
 
+    ##
+    # Bad logging setting
     class UnknownLoggingSetting < Error
       def initialize(method = nil)
         super("Unknown logging setting '#{method}'. Use :on or :off")
@@ -18,6 +24,7 @@ module Yake
 
     # HTTP Errors
 
+    # rubocop: disable Style/CommentedKeyword
     class BadRequest < Error; end                    # HTTP 400
     class Unauthorized < Error; end                  # HTTP 401
     class PaymentRequired < Error; end               # HTTP 402
@@ -59,6 +66,7 @@ module Yake
     class LoopDetected < Error; end                  # HTTP 508
     class NotExtended < Error; end                   # HTTP 510
     class NetworkAuthenticationRequired < Error; end # HTTP 511
+    # rubocop: enable Style/CommentedKeyword
 
     ERRORS = {
       '400' => BadRequest,
@@ -101,8 +109,8 @@ module Yake
       '507' => InsufficientStorage,
       '508' => LoopDetected,
       '510' => NotExtended,
-      '511' => NetworkAuthenticationRequired,
-    }
+      '511' => NetworkAuthenticationRequired
+    }.freeze
 
     def self.[](code)
       ERRORS.fetch(code.to_s)

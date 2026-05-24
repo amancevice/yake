@@ -12,7 +12,7 @@ module Yake
     module DSL
       ##
       # Proxy handler for HTTP requests from Slack
-      def route(event, context = nil, &block)
+      def route(event, context = nil)
         # Extract route method
         method = event['routeKey']
         raise Yake::Errors::UndeclaredRoute, method unless respond_to?(method)
@@ -108,4 +108,4 @@ module Yake
   end
 end
 
-extend Yake::API::DSL
+extend Yake::API::DSL # rubocop: disable Style/MixinUsage

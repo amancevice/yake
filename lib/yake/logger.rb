@@ -3,7 +3,11 @@
 require 'json'
 require 'logger'
 
+##
+# Yake
 module Yake
+  ##
+  # Yake Logger
   module Logger
     attr_writer :logger
 
@@ -17,15 +21,13 @@ module Yake
       end
     end
 
+    ##
+    # Yake Logger Formatter
     class Formatter < ::Logger::Formatter
-      Format = "%s %s %s\n"
+      Format = "%s %s %s\n" # rubocop: disable Naming/ConstantName
 
-      def call(severity, time, progname, msg)
-        Format % [
-          severity,
-          progname.nil? ? '-' : "RequestId: #{progname}",
-          msg2str(msg).strip
-        ]
+      def call(severity, _time, progname, msg)
+        format(Format, severity, progname.nil? ? '-' : "RequestId: #{progname}", msg2str(msg).strip)
       end
     end
   end

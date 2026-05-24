@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # --- Define Lambda handler(s)
 
 require 'json'

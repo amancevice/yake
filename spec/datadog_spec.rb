@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yake/datadog'
 
 RSpec.describe Yake::Datadog::DSL do
@@ -14,10 +16,10 @@ RSpec.describe Yake::Datadog::DSL do
 
   context '#datadog' do
     it 'should define a method called :fizz' do
-      expect(runtime.respond_to? :fizz).to be false
-      runtime_class.datadog(:fizz) { |event, context| [ event, context ] }
-      expect(runtime.respond_to? :fizz).to be true
-      expect(runtime.fizz event: event, context: context).to eq [ event, context ]
+      expect(runtime.respond_to?(:fizz)).to be false
+      runtime_class.datadog(:fizz) { |event, context| [event, context] }
+      expect(runtime.respond_to?(:fizz)).to be true
+      expect(runtime.fizz(event: event, context: context)).to eq [event, context]
     end
   end
 end
@@ -27,7 +29,7 @@ RSpec.describe Yake::Datadog::Formatter do
     let(:context)   { Struct.new(:aws_request_id).new('<awsRequestId>') }
     let(:formatter) { Yake::Datadog::Formatter.new }
     let(:stream)    { StringIO.new }
-    let(:utc)       { Time.at(1234567890).utc }
+    let(:utc)       { Time.at(1_234_567_890).utc }
 
     before { Yake.logger = Yake::Logger.new(stream, formatter: formatter, progname: '-') }
 
@@ -35,9 +37,9 @@ RSpec.describe Yake::Datadog::Formatter do
       allow_any_instance_of(Time).to receive(:utc).and_return utc
       Yake.logger.info('Hello, world!')
       stream.seek 0
-      expect(stream.read).to eq <<~EOS
+      expect(stream.read).to eq <<~LOG
         [INFO] 2009-02-13T23:31:30.000Z - dd.service=rspec dd.trace_id=0 dd.span_id=0 ddsource=ruby Hello, world!
-      EOS
+      LOG
     end
   end
 end

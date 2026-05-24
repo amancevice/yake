@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Yake::DSL do
   let(:event)         { { fizz: 'buzz' } }
   let(:context)       { Struct.new(:aws_request_id).new('<requestId>') }
@@ -8,10 +10,10 @@ RSpec.describe Yake::DSL do
 
   context '#handler' do
     it 'should define a method called :fizz' do
-      expect(runtime.respond_to? :fizz).to be false
-      runtime_class.handler(:fizz) { |event, context| [ event, context ] }
-      expect(runtime.respond_to? :fizz).to be true
-      expect(runtime.fizz event: event, context: context).to eq [ event, context ]
+      expect(runtime.respond_to?(:fizz)).to be false
+      runtime_class.handler(:fizz) { |event, context| [event, context] }
+      expect(runtime.respond_to?(:fizz)).to be true
+      expect(runtime.fizz(event: event, context: context)).to eq [event, context]
     end
   end
 
@@ -24,12 +26,12 @@ RSpec.describe Yake::DSL do
   context '#logging' do
     it 'should disable logging' do
       runtime_class.logging :off
-      expect(Yake.logger.instance_variable_get :@logdev).to be nil
+      expect(Yake.logger.instance_variable_get(:@logdev)).to be nil
     end
 
     it 'should enable logging' do
       runtime_class.logging :on
-      expect(Yake.logger.instance_variable_get :@logdev).not_to be nil
+      expect(Yake.logger.instance_variable_get(:@logdev)).not_to be nil
     end
 
     it 'should raise an error' do
