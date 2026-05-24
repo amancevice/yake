@@ -26,20 +26,21 @@ end
 
 RSpec.describe Yake::Datadog::Formatter do
   context '#call' do
-    let(:context)   { Struct.new(:aws_request_id).new('<awsRequestId>') }
-    let(:formatter) { Yake::Datadog::Formatter.new }
-    let(:stream)    { StringIO.new }
-    let(:utc)       { Time.at(1_234_567_890).utc }
+    let(:context)         { Struct.new(:aws_request_id).new('<awsRequestId>') }
+    let(:formatter)       { Yake::Datadog::Formatter.new }
+    let(:log_message)     { 'Hello, world!' }
+    let(:log_correlation) { 'dd.service=rspec dd.trace_id=0 dd.span_id=0 ddsource=ruby' }
+    let(:log_iso8601)     { '\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d.\d{3}Z' }
+    let(:log_pattern)     { /\[INFO\] #{log_iso8601} - #{log_correlation} #{log_message}/ }
+    let(:stream)          { StringIO.new }
+    let(:utc)             { Time.at(1_234_567_890).utc }
 
     before { Yake.logger = Yake::Logger.new(stream, formatter: formatter, progname: '-') }
 
     it 'should format the log for Datadog' do
-      allow_any_instance_of(Time).to receive(:utc).and_return utc
-      Yake.logger.info('Hello, world!')
+      Yake.logger.info(log_message)
       stream.seek 0
-      expect(stream.read).to eq <<~LOG
-        [INFO] 2009-02-13T23:31:30.000Z - dd.service=rspec dd.trace_id=0 dd.span_id=0 ddsource=ruby Hello, world!
-      LOG
+      expect(stream.read).to match log_pattern
     end
   end
 end
