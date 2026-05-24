@@ -179,7 +179,7 @@ end
 
 ### (Near) Zero Dependencies
 
-Finally, `yake` does not depend on any 3rd party gems. The only exceptions are the `ostruct` and `logger` gems, which are being removed from the Ruby stdlib in Ruby v3.5. This helps keep your Lambda packages slim & speedy.
+Finally, `yake` does not depend on any 3rd party gems. This helps keep your Lambda packages slim & speedy.
 
 ## Support Helpers
 
@@ -239,9 +239,6 @@ hash.deep_transform_keys!(&:to_s)
 
 { fizz: 'buzz' }.encode64
 # => "eyJmaXp6IjoiYnV6eiJ9\n"
-
-{ fizz: 'buzz', jazz: 'fuzz' }.except(:buzz)
-# => { :fizz => 'buzz' }
 
 { fizz: 'buzz' }.strict_encode64
 # => "eyJmaXp6IjoiYnV6eiJ9"
