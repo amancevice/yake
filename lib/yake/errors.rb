@@ -7,6 +7,14 @@ module Yake
     class Error < StandardError; end
 
     ##
+    # Error not found by code
+    class CodeNotFound < Error
+      def initialize(code = nil)
+        super("No Error class for code '#{code}'")
+      end
+    end
+
+    ##
     # Event uses undeclared route
     class UndeclaredRoute < Error
       def initialize(method = nil)
@@ -114,6 +122,8 @@ module Yake
 
     def self.[](code)
       ERRORS.fetch(code.to_s)
+    rescue KeyError
+      raise CodeNotFound.new(code)
     end
   end
 end
