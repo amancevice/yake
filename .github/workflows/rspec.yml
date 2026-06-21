@@ -9,19 +9,12 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - "3.2"
           - "3.3"
           - "3.4"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
+          bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
-      - uses: amancevice/setup-code-climate@v2
-        with:
-          cc_test_reporter_id: ${{ secrets.CC_TEST_REPORTER_ID }}
-      - run: cc-test-reporter before-build
-      - run: bundle install
-      - run: bundle exec rspec --format documentation
-      - run: cc-test-reporter after-build
-        if: ${{ github.event_name != 'pull_request' }}
+      - run: bundle exec rspec
