@@ -55,11 +55,14 @@ class Hash
     end.reduce(&:merge)
   end
 
-  def to_h_from_dynamodb # rubocop: disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+  def to_h_from_dynamodb # rubocop: disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
     decode = lambda do |i|
       type, val = i.first
       case type.to_sym
-      when :S then val
+      when :BOOL, :S then val
+      when :NULL then nil
+      when :NS then Set.new(val.map { |x| x =~ /^[0-9]+$/ ? x.to_i : x.to_f })
+      when :SS then Set.new(val)
       when :N then val =~ /^[0-9]+$/ ? val.to_i : val.to_f
       when :L then val.map(&decode)
       when :M then val.transform_values(&decode)

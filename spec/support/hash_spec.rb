@@ -158,13 +158,17 @@ RSpec.describe Hash do
     end
   end
 
-  context '#from_dynamodb' do
+  context '#to_h_from_dynamodb' do
     subject do
       {
         a: { S: 'b' },
         c: { N: '1' },
         d: { L: [{ S: 'e' }, { N: '2.3' }] },
-        f: { M: { g: { S: 'h' } } }
+        f: { M: { g: { S: 'h' } } },
+        g: { BOOL: false },
+        h: { NULL: true },
+        i: { NS: %w[1 2 3] },
+        j: { SS: %w[a b c] }
       }
     end
 
@@ -173,7 +177,11 @@ RSpec.describe Hash do
         a: 'b',
         c: 1,
         d: ['e', 2.3],
-        f: { g: 'h' }
+        f: { g: 'h' },
+        g: false,
+        h: nil,
+        i: Set.new([1, 2, 3]),
+        j: Set.new(%w[a b c])
       )
     end
   end
